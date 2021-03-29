@@ -17,7 +17,7 @@ class App extends Component {
 
   componentDidMount() {
     if (this.state.logged_in) {
-      fetch('http://localhost:8000/core/current_user/', {
+      fetch('http://localhost:8000/authenticate/current_user/', {
         headers: {
           Authorization: `JWT ${localStorage.getItem('token')}`
         }
@@ -31,7 +31,7 @@ class App extends Component {
 
   handle_login = (e, data) => {
     e.preventDefault();
-    fetch('http://localhost:8000/login/', {
+    fetch('http://localhost:8000/authenticate/login/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -53,7 +53,7 @@ class App extends Component {
 
   handle_signup = (e, data) => {
     e.preventDefault();
-    fetch('http://localhost:8000/core/users/', {
+    fetch('http://localhost:8000/authenticate/signup/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -63,6 +63,8 @@ class App extends Component {
       .then(res => res.json())
       .then(json => {
         localStorage.setItem('token', json.token);
+        console.log(json.token);
+        // let decoded_token = jwt_decode(json.token);
         this.setState({
           logged_in: true,
           displayed_form: '',
