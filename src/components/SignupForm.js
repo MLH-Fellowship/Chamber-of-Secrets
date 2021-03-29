@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 class SignupForm extends React.Component {
   state = {
     username: '',
-    password: ''
+    password: '',
+    auth_per_upload:false,
+    public_key: 'sgh5jhjs66'
   };
 
   handle_change = e => {
@@ -16,6 +18,12 @@ class SignupForm extends React.Component {
       return newState;
     });
   };
+
+  handle_checkbox = e => {
+    this.setState({
+      auth_per_upload: !this.state.auth_per_upload
+    })
+  }
 
   render() {
     return (
@@ -35,6 +43,14 @@ class SignupForm extends React.Component {
           value={this.state.password}
           onChange={this.handle_change}
         />
+        <label htmlFor="auth_per_upload">AuthPerUpload</label>
+        <input
+          type="checkbox"
+          name="auth_per_upload"
+          value={this.state.authPerUpload}
+          onChange={this.handle_checkbox}
+        />
+        <br/>
         <input type="submit" />
       </form>
     );
