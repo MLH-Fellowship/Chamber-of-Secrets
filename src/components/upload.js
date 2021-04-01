@@ -36,6 +36,17 @@ class Upload extends React.Component {
     .catch(err => console.log(err))
   }
 
+  getUserFiles=async(e)=>{
+    var res= await fetch('/horcrux/get-files/',{
+      method:"GET",
+      headers:{
+        'Authorization':this.props.authToken
+      }
+    })
+    var data=await res.json()
+    console.log(data)
+
+  }
 
   handleSubmit = (e) => {
     e.preventDefault();
@@ -83,6 +94,7 @@ class Upload extends React.Component {
         <br/>
         <input type="submit" />
       </form>
+      <button onClick={this.getUserFiles} value="get user files">hello</button>
     </>
     );
   }
