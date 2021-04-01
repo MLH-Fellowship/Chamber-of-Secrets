@@ -1,15 +1,51 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios'
+import { saveAs } from 'file-saver'
 
 class Upload extends React.Component {
   state = {
     file:null,
-    private_key:''
+    private_key:'',
+    //for download stuff
+    download_file_name:'',
+    d_private_key:''
   };
 
   handleImageUpload = (e) => {
     this.setState({file:e.target.files[0]})
+  }
+
+  handleDownloadSubmit = e =>{
+    e.preventDefault();
+    fetch('/horcrux/download/',{
+      method:"POST",
+      headers:{
+        'content-type': 'application/json',
+        'Authorization':this.props.authToken
+      },
+      body:JSON.stringify({
+        file_name: this.state.download_file_name,
+        private_key: this.state.d_private_key
+      })
+    }).then(res => {
+      return res.blob()
+    }).then(blob => 
+      saveAs(blob, 'file.pdf')
+    )
+    .catch(err => console.log(err))
+  }
+
+  getUserFiles=async(e)=>{
+    var res= await fetch('/horcrux/get-files/',{
+      method:"GET",
+      headers:{
+        'Authorization':this.props.authToken
+      }
+    })
+    var data=await res.json()
+    console.log(data)
+
   }
 
   handleSubmit = (e) => {
@@ -39,6 +75,7 @@ class Upload extends React.Component {
 
   render() {
     return (
+      <>
       <form onSubmit={this.handleSubmit}>
         <h4>Upload file</h4>
         <input type="file" id="fileUpload" onChange={this.handleImageUpload}/>
@@ -47,6 +84,18 @@ class Upload extends React.Component {
         <br/>
         <input type="submit" />
       </form>
+      <br/>
+      <p>download stuff</p>
+      <form onSubmit={this.handleDownloadSubmit}>
+        <h4>Download file</h4>
+        <input type="text" name="download_file_name" id="filename" placeholder="file name" onChange={this.handleChange}/>
+        <br/>
+        <input type="password" id="privateKey" name="d_private_key" onChange={this.handleChange}/>
+        <br/>
+        <input type="submit" />
+      </form>
+      <button onClick={this.getUserFiles} value="get user files">hello</button>
+    </>
     );
   }
 }
