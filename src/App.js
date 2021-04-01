@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import jwt_decode from "jwt-decode";
 import Nav from './components/Nav';
+import Upload from './components/upload'
 import LoginForm from './components/LoginForm';
 import SignupForm from './components/SignupForm';
 import './App.css';
@@ -107,8 +108,9 @@ class App extends Component {
         {form}
         <h3>
           {this.state.logged_in
-            ? `Hello, ${this.state.username}`
-            : 'Please Log In'}
+            ? <Upload authToken={`JWT ${localStorage.getItem('token')}`}/>
+            : <div>'Please Log In'</div>
+          }
         </h3>
       </div>
     );

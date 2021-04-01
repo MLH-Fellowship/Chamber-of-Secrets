@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "axios": "^0.21.1",
     "jwt-decode": "^3.1.2",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
@@ -37,5 +38,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8000/login/"
+  "proxy": "http://localhost:8000"
 }
