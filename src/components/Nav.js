@@ -2,6 +2,7 @@ import React from 'react';
 import './nav.css'
 import {Link} from 'react-router-dom'
 import { useHistory } from 'react-router-dom';
+import { setTokenHeader } from '../services/api';
 
 function Nav(props) {
   const history = useHistory();
@@ -9,6 +10,7 @@ function Nav(props) {
   console.log(props)
   const logout=async ()=>{
     await localStorage.removeItem("token")
+    await setTokenHeader(false)
     console.log(history)
     history.push('/')
   }

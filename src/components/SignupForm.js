@@ -16,7 +16,7 @@ class SignupForm extends React.Component {
     var headers={
       'Content-Type': 'application/json'
     }
-    var response=await apiCall("post","/authenticate/signup/",reqBody,headers)
+    var response=await apiCall("post","http://localhost:8000/authenticate/signup/",reqBody,headers)
     localStorage.setItem('token', response.token);
     console.log(response.token);
     this.setState({

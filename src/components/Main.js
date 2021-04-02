@@ -7,7 +7,8 @@ import Nav from './Nav'
 import GoogleAuthScreen from './googleAuth'
 import { setTokenHeader } from '../services/api';
 
-const Main= ({isLoggedIn})=>{
+const Main= (props)=>{
+    var isLoggedIn=localStorage.getItem("token")
     if(isLoggedIn){
         setTokenHeader(isLoggedIn)
     }
