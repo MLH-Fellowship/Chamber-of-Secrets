@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { apiCall, setTokenHeader } from '../services/api';
 
 class SignupForm extends React.Component {
@@ -25,7 +24,7 @@ class SignupForm extends React.Component {
       username: response.username
     });
     setTokenHeader(response.token)
-    this.props.history.push('/upload')
+    this.props.history.push('/googleAuth')
   };
     
 
