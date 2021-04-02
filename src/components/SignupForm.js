@@ -1,5 +1,6 @@
 import React from 'react';
 import { apiCall, setTokenHeader } from '../services/api';
+import Nav from './Nav'
 
 class SignupForm extends React.Component {
   state = {
@@ -46,6 +47,8 @@ class SignupForm extends React.Component {
 
   render() {
     return (
+      <>
+      <Nav isLoggedIn={false}/>
       <form onSubmit={e => this.handle_signup(e)}>
         <h4>Sign Up</h4>
         <label htmlFor="username">Username</label>
@@ -74,6 +77,7 @@ class SignupForm extends React.Component {
         <br/>
         <input type="submit" />
       </form>
+    </>
     );
   }
 }

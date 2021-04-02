@@ -1,21 +1,17 @@
 import React from 'react';
 import {BrowserRouter as Router} from "react-router-dom"
 import Main from "./Main"
-import Nav from './Nav'
 
 function App() {
-
+  var isLoggedIn=localStorage.getItem("token")
   return(
       <Router>
-      <div className="appcomp">
-        <Nav />
-        <Main/>
-      </div>
+        <div className="appcomp">
+            <Main isLoggedIn={isLoggedIn}/>
+        </div>
       </Router>
   )
 }
-
-
   
 
 export default App

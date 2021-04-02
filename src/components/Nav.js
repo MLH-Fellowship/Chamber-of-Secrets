@@ -1,26 +1,28 @@
 import React from 'react';
 import './nav.css'
 import {Link} from 'react-router-dom'
-import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 
 function Nav(props) {
-  const logged_out_nav = (
-    <ul>
-      <li onClick={() => props.display_form('login')}>login</li>
-      <li onClick={() => props.display_form('signup')}>signup</li>
-    </ul>
-  );
+  const history = useHistory();
 
-  const logged_in_nav = (
-    <ul>
-      <li onClick={props.handle_logout}>logout</li>
-    </ul>
-  );
+  console.log(props)
+  const logout=async ()=>{
+    await localStorage.removeItem("token")
+    console.log(history)
+    history.push('/')
+  }
   return (
     <header className='navbar'>
       <div className='navbar__title navbar__item'>Helooo</div>
-      <div className='navbar__item'><Link to='/'>Signup</Link></div>  
-      <div className='navbar__item'><Link to='/signin'>Signin</Link></div>  
+      {props.isLoggedIn ? 
+         <div className='navbar__item'><a onClick={logout}>Logout</a></div>
+      :
+      <>
+       <div className='navbar__item'><Link to='/signup'>Signup</Link></div>  
+       <div className='navbar__item'><Link to='/'>Signin</Link></div>  
+       </>
+      }
     </header>
   )
 }

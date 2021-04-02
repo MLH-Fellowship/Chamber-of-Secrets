@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { saveAs } from 'file-saver'
+import Nav from './Nav'
 import { apiCall, fileUploadApiCall } from '../services/api';
 
 class Upload extends React.Component {
@@ -73,6 +73,7 @@ class Upload extends React.Component {
   render() {
     return (
       <>
+       <Nav isLoggedIn={true}/>
       <form onSubmit={this.handleSubmit}>
         <h4>Upload file</h4>
         <input type="file" id="fileUpload" onChange={this.handleImageUpload}/>

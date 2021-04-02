@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { apiCall, setTokenHeader } from '../services/api';
 import jwt_decode from "jwt-decode";
+import Nav from './Nav'
 
 class LoginForm extends React.Component {
   state = {
@@ -41,6 +42,8 @@ class LoginForm extends React.Component {
 
   render() {
     return (
+      <>
+      <Nav isLoggedIn={false}/>
       <form onSubmit={e => this.handle_login(e)}>
         <h4>Log In</h4>
         <label htmlFor="username">Username</label>
@@ -61,6 +64,7 @@ class LoginForm extends React.Component {
         <br/>
         <input type="submit" />
       </form>
+    </>
     );
   }
 }
