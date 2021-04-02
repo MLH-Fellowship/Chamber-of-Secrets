@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { apiCall, setTokenHeader } from '../services/api';
+import jwt_decode from "jwt-decode";
 
 class LoginForm extends React.Component {
   state = {
@@ -17,9 +19,29 @@ class LoginForm extends React.Component {
     });
   };
 
+  handle_login = async (e) => {
+    e.preventDefault();
+    console.log("hello handle login")
+    var reqBody= this.state
+    var headers={
+      'Content-Type': 'application/json'
+    }
+    var response=await apiCall("post","/authenticate/login/",reqBody,headers)
+    localStorage.setItem('token', response.token);
+    console.log(response.token);
+    let decoded_token = jwt_decode(response.token); 
+    this.setState({
+      logged_in: true,
+      displayed_form: '',
+      username: decoded_token.username 
+    });
+    setTokenHeader(response.token)
+    this.props.history.push('/upload')
+  };
+
   render() {
     return (
-      <form onSubmit={e => this.props.handle_login(e, this.state)}>
+      <form onSubmit={e => this.handle_login(e)}>
         <h4>Log In</h4>
         <label htmlFor="username">Username</label>
         <input
@@ -28,6 +50,7 @@ class LoginForm extends React.Component {
           value={this.state.username}
           onChange={this.handle_change}
         />
+        <br/>
         <label htmlFor="password">Password</label>
         <input
           type="password"
@@ -35,6 +58,7 @@ class LoginForm extends React.Component {
           value={this.state.password}
           onChange={this.handle_change}
         />
+        <br/>
         <input type="submit" />
       </form>
     );

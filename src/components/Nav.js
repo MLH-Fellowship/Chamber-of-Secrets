@@ -1,4 +1,6 @@
 import React from 'react';
+import './nav.css'
+import {Link} from 'react-router-dom'
 import PropTypes from 'prop-types';
 
 function Nav(props) {
@@ -14,13 +16,13 @@ function Nav(props) {
       <li onClick={props.handle_logout}>logout</li>
     </ul>
   );
-  return <div>{props.logged_in ? logged_in_nav : logged_out_nav}</div>;
+  return (
+    <header className='navbar'>
+      <div className='navbar__title navbar__item'>Helooo</div>
+      <div className='navbar__item'><Link to='/'>Signup</Link></div>  
+      <div className='navbar__item'><Link to='/signin'>Signin</Link></div>  
+    </header>
+  )
 }
 
 export default Nav;
-
-Nav.propTypes = {
-  logged_in: PropTypes.bool.isRequired,
-  display_form: PropTypes.func.isRequired,
-  handle_logout: PropTypes.func.isRequired
-};

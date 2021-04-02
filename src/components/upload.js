@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios'
 import { saveAs } from 'file-saver'
+import { apiCall, fileUploadApiCall } from '../services/api';
 
 class Upload extends React.Component {
   state = {
@@ -16,13 +16,24 @@ class Upload extends React.Component {
     this.setState({file:e.target.files[0]})
   }
 
-  handleDownloadSubmit = e =>{
+  handleDownloadSubmit =async (e) =>{
     e.preventDefault();
+    // var reqBody={
+    //   file_name: this.state.download_file_name,
+    //   private_key: this.state.d_private_key
+    // }
+    // var headers={
+    //   'content-type': 'application/json'
+    // }
+    // var blob=await apiCall("post","/horcrux/download/",reqBody,headers)
+    // //var tosave=blob.blob()
+    // console.log("blb",blob)
+    //saveAs(blob, 'file.pdf')
     fetch('/horcrux/download/',{
       method:"POST",
       headers:{
         'content-type': 'application/json',
-        'Authorization':this.props.authToken
+        'Authorization': `JWT ${localStorage.getItem("token")}`
       },
       body:JSON.stringify({
         file_name: this.state.download_file_name,
@@ -37,34 +48,20 @@ class Upload extends React.Component {
   }
 
   getUserFiles=async(e)=>{
-    var res= await fetch('/horcrux/get-files/',{
-      method:"GET",
-      headers:{
-        'Authorization':this.props.authToken
-      }
-    })
-    var data=await res.json()
-    console.log(data)
+    var files=await apiCall("get","/horcrux/get-files/")
+    console.log(files)
 
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = async (e) => {
     e.preventDefault();
     console.log(this.state);
     let form_data = new FormData();
     form_data.append('file_uploaded', this.state.file, this.state.file.name);
     form_data.append('private_key', this.state.private_key);
     let url = '/horcrux/upload/';
-    axios.post(url, form_data, {
-      headers: {
-        'content-type': 'multipart/form-data',
-        'Authorization':this.props.authToken
-      }
-    })
-        .then(res => {
-          console.log(res.data);
-        })
-        .catch(err => console.log(err))
+    var res=await fileUploadApiCall(url,form_data)
+    console.log(res)
   };
 
   handleChange=e=>{
