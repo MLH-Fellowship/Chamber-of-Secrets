@@ -7,6 +7,8 @@ class AuthForm extends React.Component {
   state = {
     username: '',
     password: '',
+    firstname: '',
+    lastname: '',
     auth_per_upload:false,
     public_key: 'sgh5jhjs66',
     current: false
@@ -74,6 +76,20 @@ class AuthForm extends React.Component {
 
       <form id="sign-up" onSubmit={e => this.handle_signup(e)}>
         <h2>Sign Up</h2>
+        <label htmlFor="firstname">First Name</label>
+        <input
+          type="text"
+          name="firstname"
+          value={this.state.firstname}
+          onChange={this.handle_change}
+        />
+        <label htmlFor="lastname">Last Name</label>
+        <input
+          type="text"
+          name="lastname"
+          value={this.state.lastname}
+          onChange={this.handle_change}
+        />
         <label htmlFor="username">Username</label>
         <input
           type="text"
