@@ -1,0 +1,127 @@
+@import url("https://fonts.googleapis.com/css?family=Quattrocento+Sans&display=swap");
+
+$gray: #b5b5b5;
+
+body {
+  margin: 0;
+  font-family: "Quattrocento Sans";
+  overflow: hidden;
+}
+
+h2 {
+  font-weight: bolder;
+}
+
+#auth {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+
+  &.sign-up #slider {
+    left: 50vw;
+  }
+
+  form {
+    flex: 0 0 50%;
+    padding: 10vh 10vw;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #f2f2f7;
+    label {
+      margin-bottom: 5px;
+    }
+    button,
+    input {
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      font-size: 1.25rem;
+      outline: none;
+    }
+
+    input {
+      border: 1px solid $gray;
+      transition: 125ms ease;
+      &:focus {
+        border-color: blue;
+        box-shadow: 0 0 0 2pt rgba(blue, 0.3);
+      }
+    }
+
+    button {
+      color: white;
+      border: none;
+      margin-top: 20px;
+      background: black;
+      box-shadow: 0 3px 15px 5px rgba(black, 0.2);
+      cursor: pointer;
+      font-family: "Quattrocento Sans";
+      transition: 75ms ease;
+
+      &:hover {
+        background: darkgray;
+        transform: scale(0.95);
+      }
+    }
+  }
+}
+
+#slider {
+  color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50vw;
+  height: 100vh;
+  background-image: url(../assets/chamberofsecrets.jpg);
+  background-attachment: fixed;
+  background-size: 100vw;
+  transition: left 300ms ease;
+  clip-path: inset(0);
+
+  &:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: black;
+    opacity: 0.5;
+  }
+
+  & div {
+    color: white;
+    position: fixed;
+    height: 100%;
+    width: 50vw;
+    padding: 50px;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+
+  #login-text {
+    left: 0;
+  }
+  #sign-up-text {
+    left: 50vw;
+  }
+}
+
+.toggle {
+  text-align: center;
+  color: #757575;
+  span {
+    color: blue;
+    cursor: pointer;
+  }
+}

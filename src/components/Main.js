@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import LoginForm from './LoginForm';
-import SignupForm from './SignupForm';
+import AuthForm from './AuthForm';
 import {Switch,Route,withRouter,Redirect} from "react-router-dom"
 import Upload from './Upload';
 import Nav from './Nav'
@@ -15,8 +14,7 @@ const Main= (props)=>{
     return(
     <div>
         <Switch>
-            <Route exact path="/" render={props => isLoggedIn ? <Upload {...props}/> : <LoginForm {...props}/>}></Route>
-            <Route exact path="/signup" render={props => <SignupForm {...props}/>}></Route>
+            <Route exact path="/" render={props => isLoggedIn ? <Upload {...props}/> : <AuthForm {...props}/>}></Route>
             <Route exact path="/upload" render={props => <Upload {...props}/>}></Route>
             <Route exact path="/googleAuth" render={props => <GoogleAuthScreen {...props}/>}></Route>
         </Switch>
