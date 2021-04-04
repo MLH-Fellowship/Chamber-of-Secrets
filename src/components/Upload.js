@@ -21,7 +21,7 @@ class Upload extends React.Component {
     this.setState({file:e.target.files[0]})
   }
 
-  handleDownloadSubmit =async (e) =>{
+  handleDownloadSubmit =async (e,code) =>{
     e.preventDefault();
     // var reqBody={
     //   file_name: this.state.download_file_name,
@@ -42,7 +42,7 @@ class Upload extends React.Component {
       },
       body:JSON.stringify({
         file_name: this.state.download_file_name,
-        private_key: this.state.d_private_key
+        private_key: code
       })
     }).then(res => {
       return res.blob()
@@ -172,7 +172,7 @@ class Upload extends React.Component {
           document.getElementById('modal-container').classList.add('out')
           console.log(document.getElementById('modal-container').classList)
           //document.getElementById('modal-container').classList.remove('six')
-          }}></Modal>
+          }} download={this.handleDownloadSubmit}></Modal>
 
       {/* <form onSubmit={this.handleSubmit}>
         <h4>Upload file</h4>
