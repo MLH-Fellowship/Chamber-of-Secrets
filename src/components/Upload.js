@@ -5,11 +5,15 @@ import { apiCall, fileUploadApiCall } from '../services/api';
 import './upload.css'
 import './sidebar.css'
 import Modal from './Modal'
+import jwtDecode from 'jwt-decode';
+import Profile from '../assets/profile.jpg'
+import { setTokenHeader } from '../services/api';
 
 class Upload extends React.Component {
   state = {
     file:null,
     private_key:'',
+    selectedFileName:'',
     //for download stuff
     download_file_name:'',
     d_private_key:'',
@@ -41,7 +45,7 @@ class Upload extends React.Component {
         'Authorization': `JWT ${localStorage.getItem("token")}`
       },
       body:JSON.stringify({
-        file_name: this.state.download_file_name,
+        file_name: this.state.selectedFileName,
         private_key: code
       })
     }).then(res => {
@@ -79,6 +83,22 @@ class Upload extends React.Component {
     this.setState({modal_open: !currState})
   }
 
+  logout=async ()=>{
+    await localStorage.removeItem("token")
+    await setTokenHeader(false)
+    this.props.history.push('/')
+  }
+
+  getUsername = () =>{
+    const auth_token=localStorage.getItem("token")
+    if(auth_token){
+      var user=jwtDecode(auth_token)
+      return user.username
+    }else{
+      return "Stranger"
+    }
+  }
+
 
   render() {
 
@@ -87,6 +107,7 @@ class Upload extends React.Component {
         <div id={file.name} 
         class="icon textedit" 
         onDoubleClick={()=>{
+          this.setState({selectedFileName:file.name})
           console.log("add six")
           document.getElementById('modal-container').classList.add('six')
           document.getElementById('modal-container').classList.remove('out')
@@ -105,43 +126,20 @@ class Upload extends React.Component {
        <div id="viewport">
 
   <div id="sidebar">
-    <header>
-      <a href="#">My App</a>
-    </header>
     <ul class="nav">
       <li>
-        <a href="#">
-          <i class="zmdi zmdi-view-dashboard"></i> Dashboard
-        </a>
+        <img src={Profile} height="80px" width="80px" style={{borderRadius:"50%"}}/>
+        <br/><br/>
+        <h4 style={{color:"white"}}>Hi <br/>{this.getUsername()}</h4>
       </li>
       <li>
         <a href="#">
-          <i class="zmdi zmdi-link"></i> Shortcuts
+          <i class="zmdi zmdi-link"></i> New File
         </a>
       </li>
       <li>
-        <a href="#">
-          <i class="zmdi zmdi-widgets"></i> Overview
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <i class="zmdi zmdi-calendar"></i> Events
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <i class="zmdi zmdi-info-outline"></i> About
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <i class="zmdi zmdi-settings"></i> Services
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <i class="zmdi zmdi-comment-more"></i> Contact
+        <a onClick={this.logout}>
+          <i class="zmdi zmdi-comment-more"></i> Logout
         </a>
       </li>
     </ul>

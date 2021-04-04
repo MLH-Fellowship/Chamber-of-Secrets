@@ -32,7 +32,7 @@ body {
   height: 100%;
   margin-left: -250px;
   overflow-y: auto;
-  background: #37474F;
+  background: #2E2F31;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -40,7 +40,7 @@ body {
 }
 
 #sidebar header {
-  background-color: #263238;
+  background-color: #2E2F31;
   font-size: 20px;
   line-height: 52px;
   text-align: center;
@@ -80,4 +80,16 @@ body {
 .container-fluid{
     padding-left: 0;
     padding-right: 0;
+}
+
+
+.nav li{
+  position: relative;
+  display: block;
+  text-align: center;
+  padding: 10px;
+}
+
+.nav:first-child li{
+  margin-top: 30px;
 }
