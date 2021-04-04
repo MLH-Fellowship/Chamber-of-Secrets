@@ -2,6 +2,9 @@ import React from 'react';
 import { saveAs } from 'file-saver'
 import Nav from './Nav'
 import { apiCall, fileUploadApiCall } from '../services/api';
+import './upload.css'
+import './sidebar.css'
+import Modal from './Modal'
 
 class Upload extends React.Component {
   state = {
@@ -9,7 +12,9 @@ class Upload extends React.Component {
     private_key:'',
     //for download stuff
     download_file_name:'',
-    d_private_key:''
+    d_private_key:'',
+    files:[{name:'file1.txt'},{name:'file2.txt'},{name:'file3.txt'}],
+    modal_open:false
   };
 
   handleImageUpload = (e) => {
@@ -69,12 +74,107 @@ class Upload extends React.Component {
     console.log(this.state)
   }
 
+  toggle = () => {
+    const currState = this.state.modal_open
+    this.setState({modal_open: !currState})
+  }
+
 
   render() {
+
+    const fs = this.state.files.map((file)=>(
+      <React.Fragment>
+        <div id={file.name} 
+        class="icon textedit" 
+        onDoubleClick={()=>{
+          console.log("add six")
+          document.getElementById('modal-container').classList.add('six')
+          document.getElementById('modal-container').classList.remove('out')
+          console.log(document.getElementById('modal-container').classList)
+        }} 
+        onClick={()=>{document.getElementById(file.name).classList.toggle('highlighted')}}>
+          {file.name}
+        </div>
+      </React.Fragment>
+    ))
+
     return (
       <>
-       <Nav isLoggedIn={true}/>
-      <form onSubmit={this.handleSubmit}>
+       {/* <Nav isLoggedIn={true}/> */}
+
+       <div id="viewport">
+
+  <div id="sidebar">
+    <header>
+      <a href="#">My App</a>
+    </header>
+    <ul class="nav">
+      <li>
+        <a href="#">
+          <i class="zmdi zmdi-view-dashboard"></i> Dashboard
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="zmdi zmdi-link"></i> Shortcuts
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="zmdi zmdi-widgets"></i> Overview
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="zmdi zmdi-calendar"></i> Events
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="zmdi zmdi-info-outline"></i> About
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="zmdi zmdi-settings"></i> Services
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="zmdi zmdi-comment-more"></i> Contact
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div id="content">
+    {/* <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="#"><i class="zmdi zmdi-notifications text-danger"></i>
+            </a>
+          </li>
+          <li><a href="#">Test User</a></li>
+        </ul>
+      </div>
+    </nav> */}
+    <div class="container-fluid">
+    <div id="desktop">
+        {fs}
+    </div>
+    </div>
+  </div>
+</div>
+
+        <Modal onClose={()=>{
+          console.log("okok")
+          document.getElementById('modal-container').classList.add('out')
+          console.log(document.getElementById('modal-container').classList)
+          //document.getElementById('modal-container').classList.remove('six')
+          }}></Modal>
+
+      {/* <form onSubmit={this.handleSubmit}>
         <h4>Upload file</h4>
         <input type="file" id="fileUpload" onChange={this.handleImageUpload}/>
         <br/>
@@ -92,7 +192,7 @@ class Upload extends React.Component {
         <br/>
         <input type="submit" />
       </form>
-      <button onClick={this.getUserFiles} value="get user files">hello</button>
+      <button onClick={this.getUserFiles} value="get user files">hello</button> */}
     </>
     );
   }
