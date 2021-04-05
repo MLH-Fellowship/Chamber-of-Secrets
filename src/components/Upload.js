@@ -17,13 +17,13 @@ class Upload extends React.Component {
     //for download stuff
     download_file_name:'',
     d_private_key:'',
-    files:[{name:'file1.txt'},{name:'file2.txt'},{name:'file3.txt'}],
+    files:[],
     is_modal_download:true,
   };
 
-  // handleImageUpload = (e) => {
-  //   this.setState({file:e.target.files[0]})
-  // }
+  componentDidMount(){
+    this.getUserFiles()
+  }
 
   handleDownloadSubmit =async (e,code) =>{
     e.preventDefault();
@@ -58,8 +58,7 @@ class Upload extends React.Component {
 
   getUserFiles=async(e)=>{
     var files=await apiCall("get","/horcrux/get-files/")
-    console.log(files)
-
+    this.setState({files})
   }
 
   handleUploadSubmit = async (e,code,file) => {
@@ -100,7 +99,7 @@ class Upload extends React.Component {
 
     const fs = this.state.files.map((file,index)=>(
       <React.Fragment key={index}>
-        <div id={file.name} 
+        <div id={file.file_name} 
         className="icon textedit" 
         onDoubleClick={()=>{
           this.setState({selectedFileName:file.name, is_modal_download:true})
@@ -110,7 +109,7 @@ class Upload extends React.Component {
           console.log(document.getElementById('modal-container').classList)
         }} 
         onClick={()=>{document.getElementById(file.name).classList.toggle('highlighted')}}>
-          {file.name}
+          {file.file_name}
         </div>
       </React.Fragment>
     ))
