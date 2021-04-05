@@ -32,33 +32,33 @@ class AuthForm extends React.Component {
 
   handle_signup = async (e) => {
     e.preventDefault();
-    console.log("reached handle signup")
     var reqBody= this.state
     var headers={
       'Content-Type': 'application/json'
     }
     var response=await apiCall("post","http://localhost:8000/authenticate/signup/",reqBody,headers)
     localStorage.setItem('token', response.token);
-    console.log(response.token);
     this.setState({
       logged_in: true,
       displayed_form: '',
       username: response.username
     });
     setTokenHeader(response.token)
-    this.props.history.push('/googleAuth')
+    let privateKey=jwt_decode(response.private)
+    this.props.history.push({
+      pathname: '/privateKey',
+      state: { privateKey }
+    })
   };
 
   handle_login = async (e) => {
     e.preventDefault();
-    console.log("hello handle login")
     var reqBody= this.state
     var headers={
       'Content-Type': 'application/json'
     }
     var response=await apiCall("post","/authenticate/login/",reqBody,headers)
     localStorage.setItem('token', response.token);
-    console.log(response.token);
     let decoded_token = jwt_decode(response.token); 
     this.setState({
       logged_in: true,
@@ -104,15 +104,8 @@ class AuthForm extends React.Component {
           value={this.state.password}
           onChange={this.handle_change}
         />
-        {/* <label htmlFor="auth_per_upload">AuthPerUpload</label>
-        <input
-          type="checkbox"
-          name="auth_per_upload"
-          value={this.state.authPerUpload}
-          onChange={this.handle_checkbox}
-        /> */}
         <button type="submit">Sign Up</button>
-    <div class="toggle">
+    <div className="toggle">
       Already have an account?
       <span onClick={()=>{this.setState({current:false})}}>Log in</span>
     </div>
@@ -135,7 +128,7 @@ class AuthForm extends React.Component {
           onChange={this.handle_change}
         />
         <button type="submit">Log In</button>
-        <div class="toggle">
+        <div className="toggle">
       Don't have an account?
       <span onClick={()=>{this.setState({current:true})}}>Sign up</span>
     </div>

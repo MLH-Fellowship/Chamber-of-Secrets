@@ -98,10 +98,10 @@ class Upload extends React.Component {
 
   render() {
 
-    const fs = this.state.files.map((file)=>(
-      <React.Fragment>
+    const fs = this.state.files.map((file,index)=>(
+      <React.Fragment key={index}>
         <div id={file.name} 
-        class="icon textedit" 
+        className="icon textedit" 
         onDoubleClick={()=>{
           this.setState({selectedFileName:file.name, is_modal_download:true})
           console.log("add six")
@@ -122,7 +122,7 @@ class Upload extends React.Component {
        <div id="viewport">
 
   <div id="sidebar">
-    <ul class="nav">
+    <ul className="nav">
       <li>
         <img src={Profile} height="80px" width="80px" style={{borderRadius:"50%"}}/>
         <br/><br/>
@@ -136,19 +136,19 @@ class Upload extends React.Component {
           document.getElementById('modal-container').classList.remove('out')
           console.log(document.getElementById('modal-container').classList)
         }}>
-          <i class="zmdi zmdi-link"></i> New File
+          <i className="zmdi zmdi-link"></i> New File
         </a>
       </li>
       <li>
         <a onClick={this.logout}>
-          <i class="zmdi zmdi-comment-more"></i> Logout
+          <i className="zmdi zmdi-comment-more"></i> Logout
         </a>
       </li>
     </ul>
   </div>
 
   <div id="content">
-    <div class="container-fluid">
+    <div className="container-fluid">
     <div id="desktop">
         {fs}
     </div>

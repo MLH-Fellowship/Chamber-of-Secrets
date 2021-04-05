@@ -35,15 +35,15 @@ export default function Modal ({onClose, download, filename, is_download, upload
     return ReactDom.createPortal(
     <>
     <div id="modal-container">
-        <div class="modal-background">
-            <div class="modal">
+        <div className="modal-background">
+            <div className="modal">
                 <img src={is_download?downloadgif:uploadgif} style={{borderRadius:"10px", width:"300px"}}/>
                 
                 <h2>{is_download?"Download "+filename:"Upload File"}</h2>
                 {form}
                 
                 <button onClick={onClose}>Cancel</button>
-                <svg class="modal-svg" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none">
+                <svg className="modal-svg" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none">
 				<rect x="0" y="0" fill="none" width="400" height="400" rx="3" ry="3"></rect>
 				</svg>
             </div>
