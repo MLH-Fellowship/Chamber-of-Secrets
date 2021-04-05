@@ -18,12 +18,12 @@ class Upload extends React.Component {
     download_file_name:'',
     d_private_key:'',
     files:[{name:'file1.txt'},{name:'file2.txt'},{name:'file3.txt'}],
-    modal_open:false
+    is_modal_download:true,
   };
 
-  handleImageUpload = (e) => {
-    this.setState({file:e.target.files[0]})
-  }
+  // handleImageUpload = (e) => {
+  //   this.setState({file:e.target.files[0]})
+  // }
 
   handleDownloadSubmit =async (e,code) =>{
     e.preventDefault();
@@ -62,12 +62,13 @@ class Upload extends React.Component {
 
   }
 
-  handleSubmit = async (e) => {
+  handleUploadSubmit = async (e,code,file) => {
     e.preventDefault();
-    console.log(this.state);
+    console.log(code);
+    console.log(file)
     let form_data = new FormData();
-    form_data.append('file_uploaded', this.state.file, this.state.file.name);
-    form_data.append('private_key', this.state.private_key);
+    form_data.append('file_uploaded', file, file.name);
+    form_data.append('private_key', code);
     let url = '/horcrux/upload/';
     var res=await fileUploadApiCall(url,form_data)
     console.log(res)
@@ -76,11 +77,6 @@ class Upload extends React.Component {
   handleChange=e=>{
     this.setState({[e.target.name]:e.target.value})
     console.log(this.state)
-  }
-
-  toggle = () => {
-    const currState = this.state.modal_open
-    this.setState({modal_open: !currState})
   }
 
   logout=async ()=>{
@@ -107,7 +103,7 @@ class Upload extends React.Component {
         <div id={file.name} 
         class="icon textedit" 
         onDoubleClick={()=>{
-          this.setState({selectedFileName:file.name})
+          this.setState({selectedFileName:file.name, is_modal_download:true})
           console.log("add six")
           document.getElementById('modal-container').classList.add('six')
           document.getElementById('modal-container').classList.remove('out')
@@ -133,7 +129,13 @@ class Upload extends React.Component {
         <h4 style={{color:"white"}}>Hi <br/>{this.getUsername()}</h4>
       </li>
       <li>
-        <a href="#">
+        <a onClick={()=>{
+          this.setState({is_modal_download:false})
+          console.log("add six")
+          document.getElementById('modal-container').classList.add('six')
+          document.getElementById('modal-container').classList.remove('out')
+          console.log(document.getElementById('modal-container').classList)
+        }}>
           <i class="zmdi zmdi-link"></i> New File
         </a>
       </li>
@@ -146,17 +148,6 @@ class Upload extends React.Component {
   </div>
 
   <div id="content">
-    {/* <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <ul class="nav navbar-nav navbar-right">
-          <li>
-            <a href="#"><i class="zmdi zmdi-notifications text-danger"></i>
-            </a>
-          </li>
-          <li><a href="#">Test User</a></li>
-        </ul>
-      </div>
-    </nav> */}
     <div class="container-fluid">
     <div id="desktop">
         {fs}
@@ -165,14 +156,19 @@ class Upload extends React.Component {
   </div>
 </div>
 
-        <Modal onClose={()=>{
+        <Modal 
+          onClose={()=>{
           console.log("okok")
           document.getElementById('modal-container').classList.add('out')
           console.log(document.getElementById('modal-container').classList)
-          //document.getElementById('modal-container').classList.remove('six')
-          }} download={this.handleDownloadSubmit}></Modal>
+          }} 
+          download={this.handleDownloadSubmit} 
+          filename={this.state.selectedFileName} 
+          is_download={this.state.is_modal_download}
+          upload={this.handleUploadSubmit}
+          ></Modal>
 
-      {/* <form onSubmit={this.handleSubmit}>
+      {/* <form onSubmit={this.handleUploadSubmit}>
         <h4>Upload file</h4>
         <input type="file" id="fileUpload" onChange={this.handleImageUpload}/>
         <br/>
