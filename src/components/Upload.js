@@ -1,6 +1,5 @@
 import React from 'react';
 import { saveAs } from 'file-saver'
-import Nav from './Nav'
 import { apiCall, fileUploadApiCall } from '../services/api';
 import './upload.css'
 import './sidebar.css'
@@ -19,28 +18,24 @@ class Upload extends React.Component {
     d_private_key:'',
     files:[],
     is_modal_download:true,
-    loadingState:false
+    loadingState:false,
+    error:''
   };
 
   componentDidMount(){
     this.getUserFiles()
   }
 
+  disappearMsg=()=>{
+    setTimeout(() => {
+      this.setState({error:''})
+    }, 5000);
+  }
+
   handleDownloadSubmit =async (e,code) =>{
     e.preventDefault();
-    // var reqBody={
-    //   file_name: this.state.download_file_name,
-    //   private_key: this.state.d_private_key
-    // }
-    // var headers={
-    //   'content-type': 'application/json'
-    // }
-    // var blob=await apiCall("post","/horcrux/download/",reqBody,headers)
-    // //var tosave=blob.blob()
-    // console.log("blb",blob)
-    //saveAs(blob, 'file.pdf')
     this.setState({loadingState:true})
-    fetch('/horcrux/download/',{
+    fetch(`/horcrux/download/`,{
       method:"POST",
       headers:{
         'content-type': 'application/json',
@@ -51,14 +46,23 @@ class Upload extends React.Component {
         private_key: code
       })
     }).then(res => {
+      console.log("bob res is",res.status)
+      if(res.status!=200){
+        throw Error("Private key is incorrect or something")
+      }
       return res.blob()
     }).then(blob => {
+      console.log("blob is what", blob)
       saveAs(blob, this.state.selectedFileName)
       this.setState({loadingState:false})
       document.getElementById('modal-container').classList.add('out')
     }
     )
-    .catch(err => console.log(err))
+    .catch(err => {
+      console.log("err is",err)
+      this.setState({error:err.message, loadingState:false})
+      this.disappearMsg()
+    })
   }
 
   getUserFiles=async(e)=>{
@@ -77,14 +81,16 @@ class Upload extends React.Component {
       form_data.append('private_key', code);
       let url = '/horcrux/upload/';
       var res=await fileUploadApiCall(url,form_data)
-      console.log(res)
+      console.log("res is",res)
       document.getElementById('modal-container').classList.add('out')
       console.log(document.getElementById('modal-container').classList)
       this.getUserFiles()
       this.setState({loadingState:false})
 
     }catch(e){
-      console.log("unsuccessful",e)
+      console.log("unsuccessful",e.message)
+      this.setState({error:e.message, loadingState:false})
+      this.disappearMsg()
     }
     
   };
@@ -125,15 +131,13 @@ class Upload extends React.Component {
           console.log(document.getElementById('modal-container').classList)
         }} 
         onClick={()=>{document.getElementById(file.file_name).classList.toggle('highlighted')}}>
-          {file.file_name}
+          <p style={{color:"white"}}>{file.file_name}</p>
         </div>
       </React.Fragment>
     ))
 
     return (
       <>
-       {/* <Nav isLoggedIn={true}/> */}
-
        <div id="viewport">
 
   <div id="sidebar">
@@ -173,6 +177,7 @@ class Upload extends React.Component {
 
         <Modal 
           loadingState={this.state.loadingState}
+          error={this.state.error}
           onClose={()=>{
           console.log("okok")
           document.getElementById('modal-container').classList.add('out')
@@ -183,26 +188,6 @@ class Upload extends React.Component {
           is_download={this.state.is_modal_download}
           upload={this.handleUploadSubmit}
           ></Modal>
-
-      {/* <form onSubmit={this.handleUploadSubmit}>
-        <h4>Upload file</h4>
-        <input type="file" id="fileUpload" onChange={this.handleImageUpload}/>
-        <br/>
-        <input type="password" id="privateKey" name="private_key" onChange={this.handleChange}/>
-        <br/>
-        <input type="submit" />
-      </form>
-      <br/>
-      <p>download stuff</p>
-      <form onSubmit={this.handleDownloadSubmit}>
-        <h4>Download file</h4>
-        <input type="text" name="download_file_name" id="filename" placeholder="file name" onChange={this.handleChange}/>
-        <br/>
-        <input type="password" id="privateKey" name="d_private_key" onChange={this.handleChange}/>
-        <br/>
-        <input type="submit" />
-      </form>
-      <button onClick={this.getUserFiles} value="get user files">hello</button> */}
     </>
     );
   }

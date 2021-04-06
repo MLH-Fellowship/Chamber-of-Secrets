@@ -14,8 +14,8 @@ export function apiCall(method,path,data,headers={}){
         return axios[method](path,data,headers)
         .then(res=>(resolve(res.data)))
         .catch(err=>{
-            console.log("coming here with error",err)
-            return reject(err.response.data.error)
+            //console.log("coming here with error",err.response)
+            return reject(err.response.data)
         })
     })
 }
@@ -25,7 +25,7 @@ export function fileDownloadApiCall(method,path,data,headers={}){
 }
 
 export async function fileUploadApiCall(url,form_data) {
-    try{
+    // try{
         var res=await axios.post(url, form_data, {
             headers: {
                 'content-type': 'multipart/form-data',
@@ -33,7 +33,7 @@ export async function fileUploadApiCall(url,form_data) {
         })
         var data=res.data
         return data;
-    }catch(e){
-        console.log("error",e)
-    } 
+    // }catch(e){
+        //console.log("error",e)
+    //} 
 }

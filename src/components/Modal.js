@@ -4,7 +4,7 @@ import './modal.scss'
 import downloadgif from '../assets/downloadingfile.gif'
 import uploadgif from '../assets/uploadingfile.gif'
 
-export default function Modal ({onClose, download, filename, is_download, upload, loadingState}) {
+export default function Modal ({onClose, download, filename, is_download, upload, loadingState, error}) {
     var [privateKey,setPrivateKey]=useState('')
     var [file,setFile]=useState(null)
     var form;
@@ -48,8 +48,15 @@ export default function Modal ({onClose, download, filename, is_download, upload
                 {form}
                 
                 <button onClick={onClose}>Cancel</button>
+                <br/>
                 </>
                 }
+                {error ? 
+                    <div class="alert alert-danger" role="alert">{`err is ${error}`}</div>
+                    :
+                    null
+                }
+               
                 
                 <svg className="modal-svg" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none">
 				<rect x="0" y="0" fill="none" width="400" height="400" rx="3" ry="3"></rect>
