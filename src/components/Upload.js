@@ -26,6 +26,20 @@ class Upload extends React.Component {
     this.getUserFiles()
   }
 
+  handleDelete = async (filename)=>{
+    try{
+      var reqBody={file_name:filename}
+      var headers={"content-type":"application/json"}
+      var res=await apiCall("post","/horcrux/delete/",reqBody, headers)
+      if(res=="File deleted successfully"){
+        this.getUserFiles()
+      } 
+    }catch(e){
+      console.log("err",e)
+      alert("some error, not deleted")
+    }
+  }
+
   disappearMsg=()=>{
     setTimeout(() => {
       this.setState({error:''})
@@ -123,6 +137,12 @@ class Upload extends React.Component {
       <React.Fragment key={index}>
         <div id={file.file_name} 
         className="icon textedit" 
+        // onKeyPress={(key)=>{
+        //   if(key.code==46){
+        //     console.log("delete key pressed")
+        //     this.handleDelete(file.file_name)
+        //   }
+        // }}
         onDoubleClick={()=>{
           this.setState({selectedFileName:file.file_name, is_modal_download:true})
           console.log("add six")
@@ -132,6 +152,7 @@ class Upload extends React.Component {
         }} 
         onClick={()=>{document.getElementById(file.file_name).classList.toggle('highlighted')}}>
           <p style={{color:"white"}}>{file.file_name}</p>
+          <p onClick={()=>this.handleDelete(file.file_name)}>delete</p>
         </div>
       </React.Fragment>
     ))
