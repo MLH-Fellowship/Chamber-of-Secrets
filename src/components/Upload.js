@@ -19,6 +19,7 @@ class Upload extends React.Component {
     d_private_key:'',
     files:[],
     is_modal_download:true,
+    loadingState:false
   };
 
   componentDidMount(){
@@ -38,6 +39,7 @@ class Upload extends React.Component {
     // //var tosave=blob.blob()
     // console.log("blb",blob)
     //saveAs(blob, 'file.pdf')
+    this.setState({loadingState:true})
     fetch('/horcrux/download/',{
       method:"POST",
       headers:{
@@ -50,8 +52,11 @@ class Upload extends React.Component {
       })
     }).then(res => {
       return res.blob()
-    }).then(blob => 
-      saveAs(blob, 'file.pdf')
+    }).then(blob => {
+      saveAs(blob, this.state.selectedFileName)
+      this.setState({loadingState:false})
+      document.getElementById('modal-container').classList.add('out')
+    }
     )
     .catch(err => console.log(err))
   }
@@ -63,14 +68,25 @@ class Upload extends React.Component {
 
   handleUploadSubmit = async (e,code,file) => {
     e.preventDefault();
-    console.log(code);
-    console.log(file)
-    let form_data = new FormData();
-    form_data.append('file_uploaded', file, file.name);
-    form_data.append('private_key', code);
-    let url = '/horcrux/upload/';
-    var res=await fileUploadApiCall(url,form_data)
-    console.log(res)
+    this.setState({loadingState:true})
+    try{
+      console.log(code);
+      console.log(file)
+      let form_data = new FormData();
+      form_data.append('file_uploaded', file, file.name);
+      form_data.append('private_key', code);
+      let url = '/horcrux/upload/';
+      var res=await fileUploadApiCall(url,form_data)
+      console.log(res)
+      document.getElementById('modal-container').classList.add('out')
+      console.log(document.getElementById('modal-container').classList)
+      this.getUserFiles()
+      this.setState({loadingState:false})
+
+    }catch(e){
+      console.log("unsuccessful",e)
+    }
+    
   };
 
   handleChange=e=>{
@@ -102,13 +118,13 @@ class Upload extends React.Component {
         <div id={file.file_name} 
         className="icon textedit" 
         onDoubleClick={()=>{
-          this.setState({selectedFileName:file.name, is_modal_download:true})
+          this.setState({selectedFileName:file.file_name, is_modal_download:true})
           console.log("add six")
           document.getElementById('modal-container').classList.add('six')
           document.getElementById('modal-container').classList.remove('out')
           console.log(document.getElementById('modal-container').classList)
         }} 
-        onClick={()=>{document.getElementById(file.name).classList.toggle('highlighted')}}>
+        onClick={()=>{document.getElementById(file.file_name).classList.toggle('highlighted')}}>
           {file.file_name}
         </div>
       </React.Fragment>
@@ -156,6 +172,7 @@ class Upload extends React.Component {
 </div>
 
         <Modal 
+          loadingState={this.state.loadingState}
           onClose={()=>{
           console.log("okok")
           document.getElementById('modal-container').classList.add('out')

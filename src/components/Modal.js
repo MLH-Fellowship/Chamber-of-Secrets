@@ -4,7 +4,7 @@ import './modal.scss'
 import downloadgif from '../assets/downloadingfile.gif'
 import uploadgif from '../assets/uploadingfile.gif'
 
-export default function Modal ({onClose, download, filename, is_download, upload}) {
+export default function Modal ({onClose, download, filename, is_download, upload, loadingState}) {
     var [privateKey,setPrivateKey]=useState('')
     var [file,setFile]=useState(null)
     var form;
@@ -37,12 +37,20 @@ export default function Modal ({onClose, download, filename, is_download, upload
     <div id="modal-container">
         <div className="modal-background">
             <div className="modal">
+                {loadingState ? 
+                <>
+                <h2>{is_download ? "Downloading..." : "Uploading..."}</h2>
                 <img src={is_download?downloadgif:uploadgif} style={{borderRadius:"10px", width:"300px"}}/>
-                
+                </>
+                :
+                <>
                 <h2>{is_download?"Download "+filename:"Upload File"}</h2>
                 {form}
                 
                 <button onClick={onClose}>Cancel</button>
+                </>
+                }
+                
                 <svg className="modal-svg" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="none">
 				<rect x="0" y="0" fill="none" width="400" height="400" rx="3" ry="3"></rect>
 				</svg>

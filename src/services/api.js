@@ -26,16 +26,13 @@ export function fileDownloadApiCall(method,path,data,headers={}){
 
 export async function fileUploadApiCall(url,form_data) {
     try{
-        axios.post(url, form_data, {
+        var res=await axios.post(url, form_data, {
             headers: {
                 'content-type': 'multipart/form-data',
             }
         })
-        .then(res => {
-            console.log(res.data);
-            return res.data
-        })
-        .catch(err => console.log(err))
+        var data=res.data
+        return data;
     }catch(e){
         console.log("error",e)
     } 
