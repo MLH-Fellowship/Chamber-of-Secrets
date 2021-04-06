@@ -19,12 +19,55 @@ class Upload extends React.Component {
     files:[],
     is_modal_download:true,
     loadingState:false,
-    error:''
+    error:'',
+    highlightedFile:'',
+    is_delete:false
   };
+
+  componentWillMount(){
+    document.addEventListener("keydown",this._handleDeleteKey, false)
+    document.addEventListener("mousedown",this._handleClick, false)
+  }
 
   componentDidMount(){
     this.getUserFiles()
   }
+
+  _handleClick = (e) => {
+    console.log(e);
+    if(e.target.classList.contains("icon"))
+      return;
+
+    this.clearHighlights()
+  }
+
+  clearHighlights = () => {
+    var files = document.getElementsByClassName("icon")
+    for(let i=0; i<files.length;i++)
+    {
+      console.log(files[i].classList)
+      if(files[i].classList.contains("highlighted"))
+      {
+        files[i].classList.remove("highlighted")
+      }
+    }
+    this.setState({highlightedFile:''})
+  }
+
+_handleDeleteKey = async (e)=>{
+  if(e.keyCode == 46){
+    console.log("Deleting ", this.state.highlightedFile)
+    this.setState({is_delete:true})
+    document.getElementById('modal-container').classList.add('six')
+    document.getElementById('modal-container').classList.remove('out')
+    await this.handleDelete(this.state.highlightedFile)
+    this.setState({highlightedFile:''})
+    document.getElementById('modal-container').classList.add('out')
+    this.setState({is_delete:false})
+  }
+}
+
+
 
   handleDelete = async (filename)=>{
     try{
@@ -130,13 +173,46 @@ class Upload extends React.Component {
     }
   }
 
+  getExtensionClass = (filename) =>{
+    let className = "icon "
+    if(filename.endsWith(".pdf")){
+      className = className + "pdf"
+    }
+    else if(filename.endsWith(".csv")){
+      className = className + "csv"
+    }
+    else if(filename.endsWith(".docx") || filename.endsWith(".doc")){
+      className = className + "docx"
+    }
+    else if(filename.endsWith(".ppt") || filename.endsWith(".pptx")){
+      className = className + "ppt"
+    }
+    else if(filename.endsWith(".png") || filename.endsWith(".jpg") || filename.endsWith(".jpeg")){
+      className = className + "img"
+    }
+    else if(filename.endsWith(".xlsx")){
+      className = className + "xlsx"
+    }
+    else if(filename.endsWith(".mp4")){
+      className = className + "vid"
+    }
+    else if(filename.endsWith(".mp3")){
+      className = className + "mus"
+    }
+    else{
+      className = className + "textedit"
+    }
+
+    return className
+  }
+
 
   render() {
 
-    const fs = this.state.files.map((file,index)=>(
+    const fs = this.state.files.map((file,index)=>(  
       <React.Fragment key={index}>
         <div id={file.file_name} 
-        className="icon textedit" 
+        className={this.getExtensionClass(file.file_name)} 
         // onKeyPress={(key)=>{
         //   if(key.code==46){
         //     console.log("delete key pressed")
@@ -149,10 +225,28 @@ class Upload extends React.Component {
           document.getElementById('modal-container').classList.add('six')
           document.getElementById('modal-container').classList.remove('out')
           console.log(document.getElementById('modal-container').classList)
-        }} 
-        onClick={()=>{document.getElementById(file.file_name).classList.toggle('highlighted')}}>
+        }}
+        onClick={()=>{
+          if(this.state.highlightedFile=='')
+          {
+            document.getElementById(file.file_name).classList.add('highlighted');
+            this.setState({highlightedFile:file.file_name})
+          }
+          else if(this.state.highlightedFile==file.file_name)
+          {
+            document.getElementById(file.file_name).classList.remove('highlighted');
+            this.setState({highlightedFile:""})
+          }
+          else
+          {
+            this.clearHighlights();
+            document.getElementById(file.file_name).classList.add('highlighted');
+            this.setState({highlightedFile:file.file_name})
+          }
+        }
+        }>
           <p style={{color:"white"}}>{file.file_name}</p>
-          <p onClick={()=>this.handleDelete(file.file_name)}>delete</p>
+          {/* <p onClick={()=>this.handleDelete(file.file_name)}>delete</p> */}
         </div>
       </React.Fragment>
     ))
@@ -208,6 +302,7 @@ class Upload extends React.Component {
           filename={this.state.selectedFileName} 
           is_download={this.state.is_modal_download}
           upload={this.handleUploadSubmit}
+          is_delete={this.state.is_delete}
           ></Modal>
     </>
     );
