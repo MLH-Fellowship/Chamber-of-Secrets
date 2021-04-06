@@ -1,6 +1,5 @@
 import React from 'react';
 import { saveAs } from 'file-saver'
-import Nav from './Nav'
 import { apiCall, fileUploadApiCall } from '../services/api';
 import './upload.css'
 import './sidebar.css'
@@ -17,28 +16,83 @@ class Upload extends React.Component {
     //for download stuff
     download_file_name:'',
     d_private_key:'',
-    files:[{name:'file1.txt'},{name:'file2.txt'},{name:'file3.txt'}],
+    files:[],
     is_modal_download:true,
+    loadingState:false,
+    error:'',
+    highlightedFile:'',
+    is_delete:false
   };
 
-  // handleImageUpload = (e) => {
-  //   this.setState({file:e.target.files[0]})
-  // }
+  componentWillMount(){
+    document.addEventListener("keydown",this._handleDeleteKey, false)
+    document.addEventListener("mousedown",this._handleClick, false)
+  }
+
+  componentDidMount(){
+    this.getUserFiles()
+  }
+
+  _handleClick = (e) => {
+    console.log(e);
+    if(e.target.classList.contains("icon"))
+      return;
+
+    this.clearHighlights()
+  }
+
+  clearHighlights = () => {
+    var files = document.getElementsByClassName("icon")
+    for(let i=0; i<files.length;i++)
+    {
+      console.log(files[i].classList)
+      if(files[i].classList.contains("highlighted"))
+      {
+        files[i].classList.remove("highlighted")
+      }
+    }
+    this.setState({highlightedFile:''})
+  }
+
+_handleDeleteKey = async (e)=>{
+  if(e.keyCode == 46){
+    console.log("Deleting ", this.state.highlightedFile)
+    this.setState({is_delete:true})
+    document.getElementById('modal-container').classList.add('six')
+    document.getElementById('modal-container').classList.remove('out')
+    await this.handleDelete(this.state.highlightedFile)
+    this.setState({highlightedFile:''})
+    document.getElementById('modal-container').classList.add('out')
+    this.setState({is_delete:false})
+  }
+}
+
+
+
+  handleDelete = async (filename)=>{
+    try{
+      var reqBody={file_name:filename}
+      var headers={"content-type":"application/json"}
+      var res=await apiCall("post","/horcrux/delete/",reqBody, headers)
+      if(res=="File deleted successfully"){
+        this.getUserFiles()
+      } 
+    }catch(e){
+      console.log("err",e)
+      alert("some error, not deleted")
+    }
+  }
+
+  disappearMsg=()=>{
+    setTimeout(() => {
+      this.setState({error:''})
+    }, 5000);
+  }
 
   handleDownloadSubmit =async (e,code) =>{
     e.preventDefault();
-    // var reqBody={
-    //   file_name: this.state.download_file_name,
-    //   private_key: this.state.d_private_key
-    // }
-    // var headers={
-    //   'content-type': 'application/json'
-    // }
-    // var blob=await apiCall("post","/horcrux/download/",reqBody,headers)
-    // //var tosave=blob.blob()
-    // console.log("blb",blob)
-    //saveAs(blob, 'file.pdf')
-    fetch('/horcrux/download/',{
+    this.setState({loadingState:true})
+    fetch(`/horcrux/download/`,{
       method:"POST",
       headers:{
         'content-type': 'application/json',
@@ -49,29 +103,53 @@ class Upload extends React.Component {
         private_key: code
       })
     }).then(res => {
+      console.log("bob res is",res.status)
+      if(res.status!=200){
+        throw Error("Private key is incorrect or something")
+      }
       return res.blob()
-    }).then(blob => 
-      saveAs(blob, 'file.pdf')
+    }).then(blob => {
+      console.log("blob is what", blob)
+      saveAs(blob, this.state.selectedFileName)
+      this.setState({loadingState:false})
+      document.getElementById('modal-container').classList.add('out')
+    }
     )
-    .catch(err => console.log(err))
+    .catch(err => {
+      console.log("err is",err)
+      this.setState({error:err.message, loadingState:false})
+      this.disappearMsg()
+    })
   }
 
   getUserFiles=async(e)=>{
     var files=await apiCall("get","/horcrux/get-files/")
-    console.log(files)
-
+    this.setState({files})
   }
 
   handleUploadSubmit = async (e,code,file) => {
     e.preventDefault();
-    console.log(code);
-    console.log(file)
-    let form_data = new FormData();
-    form_data.append('file_uploaded', file, file.name);
-    form_data.append('private_key', code);
-    let url = '/horcrux/upload/';
-    var res=await fileUploadApiCall(url,form_data)
-    console.log(res)
+    this.setState({loadingState:true})
+    try{
+      console.log(code);
+      console.log(file)
+      let form_data = new FormData();
+      form_data.append('file_uploaded', file, file.name);
+      form_data.append('private_key', code);
+      let url = '/horcrux/upload/';
+      var res=await fileUploadApiCall(url,form_data)
+      console.log("res is",res)
+      document.getElementById('modal-container').classList.add('out')
+      console.log(document.getElementById('modal-container').classList)
+      this.getUserFiles()
+      this.setState({loadingState:false})
+
+    }catch(e){
+      console.log("unsuccessful",e.message)
+      this.setState({error:e.message, loadingState:false})
+      this.disappearMsg()
+    }
+    
   };
 
   handleChange=e=>{
@@ -95,34 +173,90 @@ class Upload extends React.Component {
     }
   }
 
+  getExtensionClass = (filename) =>{
+    let className = "icon "
+    if(filename.endsWith(".pdf")){
+      className = className + "pdf"
+    }
+    else if(filename.endsWith(".csv")){
+      className = className + "csv"
+    }
+    else if(filename.endsWith(".docx") || filename.endsWith(".doc")){
+      className = className + "docx"
+    }
+    else if(filename.endsWith(".ppt") || filename.endsWith(".pptx")){
+      className = className + "ppt"
+    }
+    else if(filename.endsWith(".png") || filename.endsWith(".jpg") || filename.endsWith(".jpeg")){
+      className = className + "img"
+    }
+    else if(filename.endsWith(".xlsx")){
+      className = className + "xlsx"
+    }
+    else if(filename.endsWith(".mp4")){
+      className = className + "vid"
+    }
+    else if(filename.endsWith(".mp3")){
+      className = className + "mus"
+    }
+    else{
+      className = className + "textedit"
+    }
+
+    return className
+  }
+
 
   render() {
 
-    const fs = this.state.files.map((file)=>(
-      <React.Fragment>
-        <div id={file.name} 
-        class="icon textedit" 
+    const fs = this.state.files.map((file,index)=>(  
+      <React.Fragment key={index}>
+        <div id={file.file_name} 
+        className={this.getExtensionClass(file.file_name)} 
+        // onKeyPress={(key)=>{
+        //   if(key.code==46){
+        //     console.log("delete key pressed")
+        //     this.handleDelete(file.file_name)
+        //   }
+        // }}
         onDoubleClick={()=>{
-          this.setState({selectedFileName:file.name, is_modal_download:true})
+          this.setState({selectedFileName:file.file_name, is_modal_download:true})
           console.log("add six")
           document.getElementById('modal-container').classList.add('six')
           document.getElementById('modal-container').classList.remove('out')
           console.log(document.getElementById('modal-container').classList)
-        }} 
-        onClick={()=>{document.getElementById(file.name).classList.toggle('highlighted')}}>
-          {file.name}
+        }}
+        onClick={()=>{
+          if(this.state.highlightedFile=='')
+          {
+            document.getElementById(file.file_name).classList.add('highlighted');
+            this.setState({highlightedFile:file.file_name})
+          }
+          else if(this.state.highlightedFile==file.file_name)
+          {
+            document.getElementById(file.file_name).classList.remove('highlighted');
+            this.setState({highlightedFile:""})
+          }
+          else
+          {
+            this.clearHighlights();
+            document.getElementById(file.file_name).classList.add('highlighted');
+            this.setState({highlightedFile:file.file_name})
+          }
+        }
+        }>
+          <p style={{color:"white"}}>{file.file_name}</p>
+          {/* <p onClick={()=>this.handleDelete(file.file_name)}>delete</p> */}
         </div>
       </React.Fragment>
     ))
 
     return (
       <>
-       {/* <Nav isLoggedIn={true}/> */}
-
        <div id="viewport">
 
   <div id="sidebar">
-    <ul class="nav">
+    <ul className="nav">
       <li>
         <img src={Profile} height="80px" width="80px" style={{borderRadius:"50%"}}/>
         <br/><br/>
@@ -136,19 +270,19 @@ class Upload extends React.Component {
           document.getElementById('modal-container').classList.remove('out')
           console.log(document.getElementById('modal-container').classList)
         }}>
-          <i class="zmdi zmdi-link"></i> New File
+          <i className="zmdi zmdi-link"></i> New File
         </a>
       </li>
       <li>
         <a onClick={this.logout}>
-          <i class="zmdi zmdi-comment-more"></i> Logout
+          <i className="zmdi zmdi-comment-more"></i> Logout
         </a>
       </li>
     </ul>
   </div>
 
   <div id="content">
-    <div class="container-fluid">
+    <div className="container-fluid">
     <div id="desktop">
         {fs}
     </div>
@@ -157,6 +291,8 @@ class Upload extends React.Component {
 </div>
 
         <Modal 
+          loadingState={this.state.loadingState}
+          error={this.state.error}
           onClose={()=>{
           console.log("okok")
           document.getElementById('modal-container').classList.add('out')
@@ -166,27 +302,8 @@ class Upload extends React.Component {
           filename={this.state.selectedFileName} 
           is_download={this.state.is_modal_download}
           upload={this.handleUploadSubmit}
+          is_delete={this.state.is_delete}
           ></Modal>
-
-      {/* <form onSubmit={this.handleUploadSubmit}>
-        <h4>Upload file</h4>
-        <input type="file" id="fileUpload" onChange={this.handleImageUpload}/>
-        <br/>
-        <input type="password" id="privateKey" name="private_key" onChange={this.handleChange}/>
-        <br/>
-        <input type="submit" />
-      </form>
-      <br/>
-      <p>download stuff</p>
-      <form onSubmit={this.handleDownloadSubmit}>
-        <h4>Download file</h4>
-        <input type="text" name="download_file_name" id="filename" placeholder="file name" onChange={this.handleChange}/>
-        <br/>
-        <input type="password" id="privateKey" name="d_private_key" onChange={this.handleChange}/>
-        <br/>
-        <input type="submit" />
-      </form>
-      <button onClick={this.getUserFiles} value="get user files">hello</button> */}
     </>
     );
   }

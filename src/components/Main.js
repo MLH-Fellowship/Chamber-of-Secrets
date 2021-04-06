@@ -5,6 +5,7 @@ import Upload from './Upload';
 import Nav from './Nav'
 import GoogleAuthScreen from './googleAuth'
 import { setTokenHeader } from '../services/api';
+import PrivateKeyScreen from './PvtKey'
 
 const Main= (props)=>{
     var isLoggedIn=localStorage.getItem("token")
@@ -16,7 +17,8 @@ const Main= (props)=>{
         <Switch>
             <Route exact path="/" render={props => isLoggedIn ? <Upload {...props}/> : <AuthForm {...props}/>}></Route>
             <Route exact path="/upload" render={props => <Upload {...props}/>}></Route>
-            <Route exact path="/googleAuth" render={props => <GoogleAuthScreen {...props}/>}></Route>
+            <Route exact path="/OAuth" render={props => <GoogleAuthScreen {...props}/>}></Route>
+            <Route exact path="/privateKey" render={props => <PrivateKeyScreen {...props}/>}></Route>
         </Switch>
     </div>
     )

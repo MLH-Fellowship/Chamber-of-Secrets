@@ -23,7 +23,7 @@ html {
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: url("../assets/hogwarts.png");
+    background-image: url("../assets/hogwarts2.png");
     background-size: cover;
     background-repeat: no-repeat;
     cursor: default;
@@ -102,9 +102,55 @@ html {
     background-color: rgba(119, 170, 219, 1) !important;
 }
 
+.icon.contextmenu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: white;
+    padding: 10px;
+    margin: 0;
+    display: none;
+    border: 1px solid black;
+    border-radius: 3px;
+    font-family: sans-serif;
+    transition: all 0.3s;
+}
+
 
 .icon.textedit:before {
     background-image: url("http://cdn.arnellebalane.com/images/virtual-filesystem/textedit.png");
+}
+
+.icon.pdf:before {
+    background-image: url("../assets/pdf_icon.png");
+}
+
+.icon.csv:before {
+    background-image: url("../assets/csv_icon.png");
+}
+
+.icon.docx:before {
+    background-image: url("../assets/docx_icon.png");
+}
+
+.icon.ppt:before {
+    background-image: url("../assets/ppt_icon.png");
+}
+
+.icon.img:before {
+    background-image: url("../assets/img_icon.png");
+}
+
+.icon.xlsx:before {
+    background-image: url("../assets/xlsx_icon.png");
+}
+
+.icon.vid:before {
+    background-image: url("../assets/vid_icon.png");
+}
+
+.icon.mus:before {
+    background-image: url("../assets/mus_icon.png");
 }
 
 .icon textarea {

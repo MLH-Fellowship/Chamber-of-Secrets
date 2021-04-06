@@ -24,6 +24,12 @@ class AuthForm extends React.Component {
     });
   };
 
+  disappearMsg=()=>{
+    setTimeout(() => {
+      this.setState({error:''})
+    }, 2000);
+  }
+
   handle_checkbox = e => {
     this.setState({
       auth_per_upload: !this.state.auth_per_upload
@@ -32,41 +38,64 @@ class AuthForm extends React.Component {
 
   handle_signup = async (e) => {
     e.preventDefault();
-    console.log("reached handle signup")
-    var reqBody= this.state
-    var headers={
-      'Content-Type': 'application/json'
+    try{
+      var reqBody= this.state
+      var headers={
+        'Content-Type': 'application/json'
+      }
+      var response=await apiCall("post","http://localhost:8000/authenticate/signup/",reqBody,headers)
+      localStorage.setItem('token', response.token);
+      this.setState({
+        logged_in: true,
+        displayed_form: '',
+        username: response.username,
+      });
+      setTokenHeader(response.token)
+      let privateKey=jwt_decode(response.private)
+      this.props.history.push({
+        pathname: '/privateKey',
+        state: { privateKey }
+      })
+    }catch(e){
+      console.log("err",e)
+      this.setState({
+        username: '',
+        password: '',
+        firstname: '',
+        lastname: '',
+        error:e.username})
+      this.disappearMsg()
     }
-    var response=await apiCall("post","http://localhost:8000/authenticate/signup/",reqBody,headers)
-    localStorage.setItem('token', response.token);
-    console.log(response.token);
-    this.setState({
-      logged_in: true,
-      displayed_form: '',
-      username: response.username
-    });
-    setTokenHeader(response.token)
-    this.props.history.push('/googleAuth')
   };
 
   handle_login = async (e) => {
     e.preventDefault();
-    console.log("hello handle login")
-    var reqBody= this.state
-    var headers={
-      'Content-Type': 'application/json'
+    try{
+      var reqBody= this.state
+      var headers={
+        'Content-Type': 'application/json'
+      }
+      var response=await apiCall("post","/authenticate/login/",reqBody,headers)
+      console.log("resp",response)
+      localStorage.setItem('token', response.token);
+      let decoded_token = jwt_decode(response.token); 
+      this.setState({
+        logged_in: true,
+        displayed_form: '',
+        username: decoded_token.username 
+      });
+      setTokenHeader(response.token)
+      this.props.history.push('/upload')
+    }catch(e){
+      console.log("helo?",e.non_field_errors)
+      this.setState({
+        username: '',
+        password: '',
+        firstname: '',
+        lastname: '',
+        error:e.non_field_errors})
+      this.disappearMsg()
     }
-    var response=await apiCall("post","/authenticate/login/",reqBody,headers)
-    localStorage.setItem('token', response.token);
-    console.log(response.token);
-    let decoded_token = jwt_decode(response.token); 
-    this.setState({
-      logged_in: true,
-      displayed_form: '',
-      username: decoded_token.username 
-    });
-    setTokenHeader(response.token)
-    this.props.history.push('/upload')
   };
 
   render() {
@@ -104,15 +133,13 @@ class AuthForm extends React.Component {
           value={this.state.password}
           onChange={this.handle_change}
         />
-        {/* <label htmlFor="auth_per_upload">AuthPerUpload</label>
-        <input
-          type="checkbox"
-          name="auth_per_upload"
-          value={this.state.authPerUpload}
-          onChange={this.handle_checkbox}
-        /> */}
         <button type="submit">Sign Up</button>
-    <div class="toggle">
+        {this.state.error ? 
+          <div class="alert alert-danger" role="alert">{this.state.error}</div>
+          :
+          null
+        }
+    <div className="toggle">
       Already have an account?
       <span onClick={()=>{this.setState({current:false})}}>Log in</span>
     </div>
@@ -135,7 +162,12 @@ class AuthForm extends React.Component {
           onChange={this.handle_change}
         />
         <button type="submit">Log In</button>
-        <div class="toggle">
+        {this.state.error ? 
+          <div class="alert alert-danger" role="alert">{this.state.error}</div>
+          :
+          null
+        }
+        <div className="toggle">
       Don't have an account?
       <span onClick={()=>{this.setState({current:true})}}>Sign up</span>
     </div>
