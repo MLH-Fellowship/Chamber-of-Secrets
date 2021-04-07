@@ -17,12 +17,14 @@ class GoogleAuthScreen extends React.Component {
   }
 
   authGoogle = async () => {
+    /**Makes api call to get GDrive auth url and redirects to url in new tab */
     var uri = await apiCall("get", '/authenticate/get-gauth-url/')
     const newWindow = window.open(uri, '_blank', 'noopener,noreferrer')
     if (newWindow) newWindow.opener = null
   };
 
   disappearMsg = (service) => {
+    /**Removes error message from screen after 4s */
     setTimeout(() => {
       if (service === "google") {
         this.setState({ googleError: '' })
@@ -33,6 +35,7 @@ class GoogleAuthScreen extends React.Component {
   }
 
   authDropbox = async () => {
+    /**Makes api call to get Dropbox auth url and redirects to url in new tab */
     var uri = await apiCall("get", '/authenticate/get-dropbox-auth-url/')
     const newWindow = window.open(uri, '_blank', 'noopener,noreferrer')
     if (newWindow) newWindow.opener = null
@@ -43,6 +46,7 @@ class GoogleAuthScreen extends React.Component {
   }
 
   submitGoogleCode = async (e) => {
+    /**Makes api call to send GDrive authorization code */
     try {
       e.preventDefault()
       var data = { code: this.state.googleCode }
@@ -61,6 +65,7 @@ class GoogleAuthScreen extends React.Component {
   }
 
   submitDropboxCode = async (e) => {
+    /**Makes api call to send Dropbox authorization code */
     try {
       e.preventDefault()
       var data = { code: this.state.dropboxCode }
@@ -76,10 +81,6 @@ class GoogleAuthScreen extends React.Component {
       })
       this.disappearMsg("dropbox")
     }
-  }
-
-  onChange = (e) => {
-    this.setState({ [e.target.name]: e.target.value })
   }
 
   render() {

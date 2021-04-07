@@ -35,6 +35,10 @@ class Upload extends React.Component {
   }
 
   _handleClick = (e) => {
+    /**
+     * Handles when mouse button is clicked anywhere on screen
+     * If icon is not clicked i.e rest of desktop is clicked, file highlights are removed
+     */
     if (e.target.classList.contains("icon"))
       return;
 
@@ -42,6 +46,7 @@ class Upload extends React.Component {
   }
 
   clearHighlights = () => {
+    /**Removes highlight effect from file icon */
     var files = document.getElementsByClassName("icon")
     for (let i = 0; i < files.length; i++) {
       if (files[i].classList.contains("highlighted")) {
@@ -52,6 +57,7 @@ class Upload extends React.Component {
   }
 
   _handleDeleteKey = async (e) => {
+    /**Calls delete loading animation modal and calls delete file function */
     if (e.keyCode === 46) {
       this.setState({ is_delete: true })
       document.getElementById('modal-container').classList.add('six')
@@ -66,9 +72,8 @@ class Upload extends React.Component {
     }
   }
 
-
-
   handleDelete = async (filename) => {
+    /**Makes API call to delete file */
     try {
       var reqBody = { file_name: filename }
       var headers = { "content-type": "application/json" }
@@ -77,17 +82,23 @@ class Upload extends React.Component {
         this.getUserFiles()
       }
     } catch (e) {
-      alert("some error, not deleted")
+      if (e.response.data.message) {
+        alert(e.response.data.message)
+      } else {
+        alert("An unexpected error occured")
+      }
     }
   }
 
   disappearMsg = () => {
+    /**Removes error message from screen after 5 secs */
     setTimeout(() => {
       this.setState({ error: '' })
     }, 5000);
   }
 
   handleDownloadSubmit = async (e, code) => {
+    /**Makes API Call to download a file */
     e.preventDefault();
     this.setState({ loadingState: true })
     fetch(`${serverUrl}/horcrux/download/`, {
@@ -118,11 +129,13 @@ class Upload extends React.Component {
   }
 
   getUserFiles = async (e) => {
+    /**Makes API Call to get current user files */
     var files = await apiCall("get", "/horcrux/get-files/")
     this.setState({ files })
   }
 
   handleUploadSubmit = async (e, code, file) => {
+    /**Makes API Call to upload a file */
     e.preventDefault();
     this.setState({ loadingState: true })
     try {
@@ -154,7 +167,7 @@ class Upload extends React.Component {
   logout = async () => {
     await localStorage.removeItem("token")
     await setTokenHeader(false)
-    this.props.history.push('/')
+    this.props.history.push('/') /*redirects to auth screen*/
   }
 
   getUsername = () => {
@@ -168,6 +181,7 @@ class Upload extends React.Component {
   }
 
   getExtensionClass = (filename) => {
+    /**Sets different icons for different file extensions */
     let className = "icon "
     if (filename.endsWith(".pdf")) {
       className = className + "pdf"
@@ -200,7 +214,6 @@ class Upload extends React.Component {
     return className
   }
 
-
   render() {
 
     const fs = this.state.files.map((file, index) => (
@@ -229,7 +242,6 @@ class Upload extends React.Component {
           }
           }>
           <p style={{ color: "white" }}>{file.file_name}</p>
-          {/* <p onClick={()=>this.handleDelete(file.file_name)}>delete</p> */}
         </div>
       </React.Fragment>
     ))

@@ -13,29 +13,25 @@ class AuthForm extends React.Component {
     current: false
   };
 
-  handle_change = e => {
-    const name = e.target.name;
-    const value = e.target.value;
-    this.setState(prevstate => {
-      const newState = { ...prevstate };
-      newState[name] = value;
-      return newState;
-    });
+  handleChange = e => {
+    this.setState({ [e.target.name]: e.target.value })
   };
 
   disappearMsg = () => {
+    /**Removes error message from screen after 2s */
     setTimeout(() => {
       this.setState({ error: '' })
     }, 2000);
   }
 
-  handle_checkbox = e => {
+  handleCheckbox = e => {
     this.setState({
       auth_per_upload: !this.state.auth_per_upload
     })
   }
 
-  handle_signup = async (e) => {
+  handleSignup = async (e) => {
+    /**Makes api call to signup the user */
     e.preventDefault();
     try {
       var reqBody = this.state
@@ -67,7 +63,8 @@ class AuthForm extends React.Component {
     }
   };
 
-  handle_login = async (e) => {
+  handleLogin = async (e) => {
+    /**Makes api call to login the user */
     e.preventDefault();
     try {
       var reqBody = this.state
@@ -101,35 +98,35 @@ class AuthForm extends React.Component {
       <>
         <section className={this.state.current ? "sign-up" : null} id="auth">
 
-          <form id="sign-up" onSubmit={e => this.handle_signup(e)}>
+          <form id="sign-up" onSubmit={e => this.handleSignup(e)}>
             <h2>Sign Up</h2>
             <label htmlFor="firstname">First Name</label>
             <input
               type="text"
               name="firstname"
               value={this.state.firstname}
-              onChange={this.handle_change}
+              onChange={this.handleChange}
             />
             <label htmlFor="lastname">Last Name</label>
             <input
               type="text"
               name="lastname"
               value={this.state.lastname}
-              onChange={this.handle_change}
+              onChange={this.handleChange}
             />
             <label htmlFor="username">Username</label>
             <input
               type="text"
               name="username"
               value={this.state.username}
-              onChange={this.handle_change}
+              onChange={this.handleChange}
             />
             <label htmlFor="password">Password</label>
             <input
               type="password"
               name="password"
               value={this.state.password}
-              onChange={this.handle_change}
+              onChange={this.handleChange}
             />
             <button type="submit">Sign Up</button>
             {this.state.error ?
@@ -143,21 +140,21 @@ class AuthForm extends React.Component {
             </div>
           </form>
 
-          <form id="login" onSubmit={e => this.handle_login(e)}>
+          <form id="login" onSubmit={e => this.handleLogin(e)}>
             <h2>Log In</h2>
             <label htmlFor="username">Username</label>
             <input
               type="text"
               name="username"
               value={this.state.username}
-              onChange={this.handle_change}
+              onChange={this.handleChange}
             />
             <label htmlFor="password">Password</label>
             <input
               type="password"
               name="password"
               value={this.state.password}
-              onChange={this.handle_change}
+              onChange={this.handleChange}
             />
             <button type="submit">Log In</button>
             {this.state.error ?

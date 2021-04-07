@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Amaranth&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+
 .key-parent {
     display: flex;
     flex-direction: column;
@@ -29,10 +30,6 @@
     text-shadow: 2px 2px rgb(7, 7, 7);
     font-size: 30px;
     font-family: "Open Sans", sans-serif;
-}
-
-.key-portion {
-    text-align: center;
 }
 
 .private-key-parent {

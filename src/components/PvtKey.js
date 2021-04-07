@@ -7,10 +7,11 @@ const PrivateKeyScreen = (props) => {
   let pvtKey = props.location.state.privateKey.private
 
   const moveToOauth = () => {
-    history.push('/OAuth')
+    history.push('/OAuth') /*Redirects to oauth screen*/
   }
 
   const copyPrivateKey = () => {
+    /**Copies private key onto user's clipboard */
     var tempInput = document.createElement("input");
     tempInput.value = pvtKey;
     document.body.appendChild(tempInput);
@@ -23,15 +24,13 @@ const PrivateKeyScreen = (props) => {
   }
 
   const downloadPrivateKey = () => {
+    /**Writes private key to a text file and downloads the file */
     var element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(pvtKey));
     element.setAttribute('download', "key.txt");
-
     element.style.display = 'none';
     document.body.appendChild(element);
-
     element.click();
-
     document.body.removeChild(element);
   }
 

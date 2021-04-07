@@ -39,7 +39,6 @@
     margin: 10px 10px;
     background: transparent;
     overflow: hidden;
-    /* border: 2px solid #fff; */
     display: flex;
     height: 5vw;
     justify-content: center;
@@ -155,13 +154,6 @@
     color: rgba(24, 149, 215, 1);
 }
 
-/* remove */
-.private-key-parent {
-    width: 70%;
-    margin-left: auto;
-    margin-right: auto;
-}
-
 .input-group {
     display: flex;
 }
@@ -175,12 +167,6 @@
 
 .img-n-text {
     cursor: pointer;
-}
-
-/* remove   */
-
-.key-portion {
-    text-align: center;
 }
 
 .auth-div input[type="submit"] {
