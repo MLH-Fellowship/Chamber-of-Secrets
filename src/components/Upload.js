@@ -7,6 +7,7 @@ import Modal from './Modal'
 import jwtDecode from 'jwt-decode';
 import Profile from '../assets/profile.jpg'
 import { setTokenHeader } from '../services/api';
+import {serverUrl} from '../services/config'
 
 class Upload extends React.Component {
   state = {
@@ -99,7 +100,7 @@ _handleDeleteKey = async (e)=>{
   handleDownloadSubmit =async (e,code) =>{
     e.preventDefault();
     this.setState({loadingState:true})
-    fetch(`/horcrux/download/`,{
+    fetch(`${serverUrl}/horcrux/download/`,{
       method:"POST",
       headers:{
         'content-type': 'application/json',
@@ -123,8 +124,7 @@ _handleDeleteKey = async (e)=>{
     }
     )
     .catch(err => {
-      console.log("err is",err)
-      this.setState({error:err.message, loadingState:false})
+      this.setState({error:e.response.data.message, loadingState:false})
       this.disappearMsg()
     })
   }

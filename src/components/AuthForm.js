@@ -10,7 +10,6 @@ class AuthForm extends React.Component {
     firstname: '',
     lastname: '',
     auth_per_upload:false,
-    public_key: 'sgh5jhjs66',
     current: false
   };
 
@@ -43,7 +42,7 @@ class AuthForm extends React.Component {
       var headers={
         'Content-Type': 'application/json'
       }
-      var response=await apiCall("post","http://localhost:8000/authenticate/signup/",reqBody,headers)
+      var response=await apiCall("post","/authenticate/signup/",reqBody,headers)
       localStorage.setItem('token', response.token);
       this.setState({
         logged_in: true,
