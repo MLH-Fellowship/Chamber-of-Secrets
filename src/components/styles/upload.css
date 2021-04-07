@@ -33,8 +33,6 @@ html {
     padding-right: 0;
 }
 
-
-
 /** UTILITY CLASSES **/
 .hidden {
     display: none;
@@ -115,7 +113,6 @@ html {
     font-family: sans-serif;
     transition: all 0.3s;
 }
-
 
 .icon.textedit:before {
     background-image: url("http://cdn.arnellebalane.com/images/virtual-filesystem/textedit.png");
