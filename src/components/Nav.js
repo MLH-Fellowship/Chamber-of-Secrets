@@ -1,5 +1,5 @@
 import React from 'react';
-import './nav.css'
+import './styles/nav.css'
 import {Link} from 'react-router-dom'
 import { useHistory } from 'react-router-dom';
 import { setTokenHeader } from '../services/api';

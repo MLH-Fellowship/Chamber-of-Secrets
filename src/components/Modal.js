@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import ReactDom from 'react-dom'
-import './modal.scss'
+import './styles/modal.scss'
 import downloadgif from '../assets/downloadingfile.gif'
 import uploadgif from '../assets/uploadingfile.gif'
 import deletegif from '../assets/deletingfile.gif'

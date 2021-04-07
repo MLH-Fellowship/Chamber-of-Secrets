@@ -3,7 +3,7 @@ import AuthForm from './AuthForm';
 import {Switch,Route,withRouter,Redirect} from "react-router-dom"
 import Upload from './Upload';
 import Nav from './Nav'
-import GoogleAuthScreen from './googleAuth'
+import GoogleAuthScreen from './Oauth'
 import { setTokenHeader } from '../services/api';
 import PrivateKeyScreen from './PvtKey'
 

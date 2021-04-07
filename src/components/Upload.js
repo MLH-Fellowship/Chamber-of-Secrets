@@ -1,8 +1,8 @@
 import React from 'react';
 import { saveAs } from 'file-saver'
 import { apiCall, fileUploadApiCall } from '../services/api';
-import './upload.css'
-import './sidebar.css'
+import './styles/upload.css'
+import './styles/sidebar.css'
 import Modal from './Modal'
 import jwtDecode from 'jwt-decode';
 import Profile from '../assets/profile.jpg'

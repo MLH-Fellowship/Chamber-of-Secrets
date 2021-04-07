@@ -1,6 +1,6 @@
 import React from 'react';
 import {withRouter, useHistory} from 'react-router-dom'
-import './key.css'
+import './styles/key.css'
 
 const PrivateKeyScreen= (props)=>{
     let history=useHistory()

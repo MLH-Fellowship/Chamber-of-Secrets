@@ -1,7 +1,7 @@
 import React from 'react';
 import { apiCall, setTokenHeader } from '../services/api';
 import jwt_decode from "jwt-decode";
-import './auth.scss'
+import './styles/auth.scss'
 
 class AuthForm extends React.Component {
   state = {
