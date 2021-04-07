@@ -64,6 +64,7 @@ _handleDeleteKey = async (e)=>{
     this.setState({highlightedFile:''})
     document.getElementById('modal-container').classList.add('out')
     this.setState({is_delete:false})
+    this.clearHighlights()
   }
 }
 
