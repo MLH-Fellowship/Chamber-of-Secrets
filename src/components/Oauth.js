@@ -1,7 +1,7 @@
 import React from 'react';
 import { apiCall } from '../services/api';
 import { Redirect } from 'react-router-dom'
-import './styles/oauth.css'
+import './styles/oauth.scss'
 import Gicon from '../assets/ggicon.png'
 import DropboxIcon from '../assets/dropbox_icon.png'
 import Tick from '../assets/tick.png'

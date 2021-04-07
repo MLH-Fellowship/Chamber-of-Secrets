@@ -1,0 +1,127 @@
+$gray: #b5b5b5;
+
+.screen-parent {
+    text-align: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    background-image: url(../../assets/oauthbg.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: white;
+}
+
+.heading {
+    text-align: center;
+    font-size: 60px;
+    font-family: "Amaranth", sans-serif;
+    margin: 10px;
+}
+
+.auth-div-parent {
+    display: flex;
+    justify-content: center;
+}
+
+.auth-div {
+    display: flex;
+    padding: 20px;
+    justify-content: center;
+    flex-direction: column;
+    width: 40%;
+}
+
+.tick-img {
+    text-align: center;
+}
+
+.code-container {
+    width: 500px;
+    margin: 10px 10px;
+    background: transparent;
+    overflow: hidden;
+    display: flex;
+    height: 5vw;
+    justify-content: center;
+}
+
+.auth-div input[type="submit"] {
+    width: 50%;
+}
+
+.textbox {
+    height: 50px;
+    width: 100%;
+    border-radius: 3px;
+    border: rgba(0, 0, 0, 0.3) 2px solid;
+    box-sizing: border-box;
+    padding: 10px;
+    /* margin-bottom:30px; */
+}
+
+.code-textbox {
+    height: 35px;
+}
+
+.textbox:focus {
+    outline: none;
+    border: rgba(24, 149, 215, 1) 2px solid;
+    color: rgba(24, 149, 215, 1);
+}
+
+.input-group {
+    display: flex;
+}
+
+.input-group-addon {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.img-n-text {
+    cursor: pointer;
+}
+
+.auth-div {
+    form {
+        button,
+        input {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            font-size: 1.5rem;
+            outline: none;
+        }
+
+        input {
+            border: 1px solid $gray;
+            transition: 125ms ease;
+            &:focus {
+                border-color: blue;
+                box-shadow: 0 0 0 2pt rgba(blue, 0.3);
+            }
+        }
+
+        input[type="submit"],
+        button {
+            color: white;
+            font-weight: bold;
+            border: none;
+            margin-top: 20px;
+            background: linear-gradient(to bottom right, #0097e2, #85bce9);
+            box-shadow: 0 3px 15px 5px rgba(black, 0.2);
+            cursor: pointer;
+            font-family: "Quattrocento Sans";
+            transition: 75ms ease;
+
+            &:hover {
+                background: rgb(0, 0, 0);
+                color: white;
+                transform: scale(0.95);
+            }
+        }
+    }
+}

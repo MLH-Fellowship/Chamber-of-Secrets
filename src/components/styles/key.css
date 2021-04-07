@@ -55,13 +55,14 @@
     padding: 10px;
     margin-bottom: 5px;
     border-radius: 5px;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
+    font-weight: bold;
     outline: none;
     color: rgb(0, 0, 0);
     border: none;
     margin-top: 5px;
-    background: rgb(255, 255, 255);
-    box-shadow: 0 3px 15px 5px rgba(rgb(187, 187, 187), 0.2);
+    background: linear-gradient(to bottom right, #6a7e7e, #4d7494);
+    box-shadow: 0 3px 15px 5px rgba(black, 0.2);
     cursor: pointer;
     font-family: "Quattrocento Sans";
     transition: 75ms ease;
