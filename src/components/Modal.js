@@ -40,7 +40,10 @@ export default function Modal ({onClose, download, filename, is_download, upload
     }
     else{
         form = <>
-            <form onSubmit={(e)=>upload(e,privateKey,file)}>
+            <form onSubmit={(e)=>{
+                upload(e,privateKey,file)
+                setFile(null)
+                }}>
                     <input type="file" id="fileUpload" onChange={(e)=>{
                         setFile(e.target.files[0])
                     }}/>
@@ -72,7 +75,7 @@ export default function Modal ({onClose, download, filename, is_download, upload
                 </>
                 }
                 {error ? 
-                    <div class="alert alert-danger" role="alert">{`err is ${error}`}</div>
+                    <div class="alert alert-danger" role="alert">{error}</div>
                     :
                     null
                 }

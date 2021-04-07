@@ -29,6 +29,10 @@ class Upload extends React.Component {
     document.addEventListener("mousedown",this._handleClick, false)
   }
 
+  componentWillUnmount(){
+    document.removeEventListener("mousedown",this._handleClick, false)
+  }
+
   componentDidMount(){
     this.getUserFiles()
   }
@@ -45,7 +49,6 @@ class Upload extends React.Component {
     var files = document.getElementsByClassName("icon")
     for(let i=0; i<files.length;i++)
     {
-      console.log(files[i].classList)
       if(files[i].classList.contains("highlighted"))
       {
         files[i].classList.remove("highlighted")
@@ -60,11 +63,13 @@ _handleDeleteKey = async (e)=>{
     this.setState({is_delete:true})
     document.getElementById('modal-container').classList.add('six')
     document.getElementById('modal-container').classList.remove('out')
-    await this.handleDelete(this.state.highlightedFile)
-    this.setState({highlightedFile:''})
-    document.getElementById('modal-container').classList.add('out')
-    this.setState({is_delete:false})
-    this.clearHighlights()
+    if(this.state.highlightedFile){
+      await this.handleDelete(this.state.highlightedFile)
+      this.setState({highlightedFile:''})
+      document.getElementById('modal-container').classList.add('out')
+      this.setState({is_delete:false})
+      this.clearHighlights()
+    }
   }
 }
 
@@ -74,8 +79,9 @@ _handleDeleteKey = async (e)=>{
     try{
       var reqBody={file_name:filename}
       var headers={"content-type":"application/json"}
+      console.log("coming inside handledelete")
       var res=await apiCall("post","/horcrux/delete/",reqBody, headers)
-      if(res=="File deleted successfully"){
+      if(res.message=="File deleted successfully"){
         this.getUserFiles()
       } 
     }catch(e){
@@ -133,21 +139,26 @@ _handleDeleteKey = async (e)=>{
     this.setState({loadingState:true})
     try{
       console.log(code);
-      console.log(file)
-      let form_data = new FormData();
-      form_data.append('file_uploaded', file, file.name);
-      form_data.append('private_key', code);
-      let url = '/horcrux/upload/';
-      var res=await fileUploadApiCall(url,form_data)
-      console.log("res is",res)
-      document.getElementById('modal-container').classList.add('out')
-      console.log(document.getElementById('modal-container').classList)
-      this.getUserFiles()
-      this.setState({loadingState:false})
-
+      console.log("file is ",file)
+      if(file){
+        let form_data = new FormData();
+        form_data.append('file_uploaded', file, file.name);
+        form_data.append('private_key', code);
+        let url = '/horcrux/upload/';
+        var res=await fileUploadApiCall(url,form_data)
+        console.log("res is",res)
+        document.getElementById('modal-container').classList.add('out')
+        console.log(document.getElementById('modal-container').classList)
+        this.getUserFiles()
+        this.setState({loadingState:false,selectedFileName:''})
+      }else{
+        this.setState({error:"No file choosen", loadingState:false })
+        this.disappearMsg()
+      }
+      
     }catch(e){
-      console.log("unsuccessful",e.message)
-      this.setState({error:e.message, loadingState:false})
+      // console.log("unsuccessful",e.response.data)
+      this.setState({error:e.response.data.message, loadingState:false})
       this.disappearMsg()
     }
     
@@ -225,7 +236,6 @@ _handleDeleteKey = async (e)=>{
           console.log("add six")
           document.getElementById('modal-container').classList.add('six')
           document.getElementById('modal-container').classList.remove('out')
-          console.log(document.getElementById('modal-container').classList)
         }}
         onClick={()=>{
           if(this.state.highlightedFile=='')
@@ -285,7 +295,7 @@ _handleDeleteKey = async (e)=>{
   <div id="content">
     <div className="container-fluid">
     <div id="desktop">
-        {fs}
+        {fs && fs.length>0 ? fs : <div style={{padding:"50px",color:"white"}}>No files uploaded yet</div>}
     </div>
     </div>
   </div>

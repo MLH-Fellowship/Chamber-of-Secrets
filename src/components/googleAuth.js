@@ -11,7 +11,9 @@ class GoogleAuthScreen extends React.Component {
     googleAuth:false,
     dropboxAuth:false,
     googleCode:'',
-    dropboxCode:''
+    dropboxCode:'',
+    googleError:'',
+    dropboxError:''
   }
   
   authGoogle = async () => {
@@ -19,6 +21,16 @@ class GoogleAuthScreen extends React.Component {
     const newWindow = window.open(uri, '_blank', 'noopener,noreferrer')
     if (newWindow) newWindow.opener = null
   };
+
+  disappearMsg=(service)=>{
+    setTimeout(() => {
+      if(service=="google"){
+        this.setState({googleError:''})
+      }else{
+        this.setState({dropboxError:''})
+      }
+    }, 4000);
+  }
 
   authDropbox = async () => {
     var uri=await apiCall("get",'/authenticate/get-dropbox-auth-url/')
@@ -31,26 +43,40 @@ class GoogleAuthScreen extends React.Component {
   }
 
   submitGoogleCode=async(e)=>{
-    e.preventDefault()
-    var data={code:this.state.googleCode}
-    var status=await apiCall("post","/authenticate/set-auth-token/",data)
-    console.log(status)
-    if(status=="Drive Authentication Successful"){
+    try{
+      e.preventDefault()
+      var data={code:this.state.googleCode}
+      var status=await apiCall("post","/authenticate/set-auth-token/",data)
+      console.log(status.message)
+      if(status.message=="Drive authentication successful"){
+        this.setState({
+          googleAuth:true
+        })
+      }
+    }catch(e){
       this.setState({
-        googleAuth:true
+        googleError:e.message
       })
+      this.disappearMsg("google")
     }
   }
 
   submitDropboxCode=async(e)=>{
-    e.preventDefault()
-    var data={code:this.state.dropboxCode}
-    var status=await apiCall("post","/authenticate/set-dropbox-auth-token/",data)
-    console.log(status)
-    if(status=="Dropbox Authentication Successful"){
+    try{
+      e.preventDefault()
+      var data={code:this.state.dropboxCode}
+      var status=await apiCall("post","/authenticate/set-dropbox-auth-token/",data)
+      console.log(status)
+      if(status.message=="Dropbox authentication successful"){
+        this.setState({
+          dropboxAuth:true
+        })
+      }
+    }catch(e){
       this.setState({
-        dropboxAuth:true
+        dropboxError:e.message
       })
+      this.disappearMsg("dropbox")
     }
   }
   
@@ -84,6 +110,13 @@ class GoogleAuthScreen extends React.Component {
             </div>
             <div>
             <input type="submit"/>
+            <br/>
+            <br/>
+            {this.state.googleError ? 
+              <div class="alert alert-danger" role="alert">{this.state.googleError}</div>
+              :
+              null
+            }
             </div>
             </form>
             </>
@@ -106,6 +139,13 @@ class GoogleAuthScreen extends React.Component {
             </div>
             <div>
             <input type="submit"/>
+            <br/>
+            <br/>
+            {this.state.dropboxError ? 
+              <div class="alert alert-danger" role="alert">{this.state.dropboxError}</div>
+              :
+              null
+            }
             </div>
             </form>
             </>
