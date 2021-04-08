@@ -8,16 +8,15 @@
     margin-bottom: 0;
     font-weight: 300;
 }
-  
+
 .navbar__title {
-margin-right: auto;
-font-size: 150%;
-padding: 12px 16px;
+    margin-right: auto;
+    font-size: 150%;
+    padding: 12px 16px;
 }
 
 .navbar__item {
-padding: 16px 16px;
-cursor: pointer;
-vertical-align: middle;
+    padding: 16px 16px;
+    cursor: pointer;
+    vertical-align: middle;
 }
-  

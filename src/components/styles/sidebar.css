@@ -1,8 +1,8 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500');
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500");
 
 body {
   overflow-x: hidden;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 16px;
 }
 
@@ -32,7 +32,7 @@ body {
   height: 100%;
   margin-left: -250px;
   overflow-y: auto;
-  background: #2E2F31;
+  background: #2e2f31;
   -webkit-transition: all 0.5s ease;
   -moz-transition: all 0.5s ease;
   -o-transition: all 0.5s ease;
@@ -40,7 +40,7 @@ body {
 }
 
 #sidebar header {
-  background-color: #2E2F31;
+  background-color: #2e2f31;
   font-size: 20px;
   line-height: 52px;
   text-align: center;
@@ -56,41 +56,36 @@ body {
   color: #fff;
 }
 
-#sidebar .nav{
-  
-}
-
-#sidebar .nav a{
+#sidebar .nav a {
   background: none;
-  border-bottom: 1px solid #455A64;
-  color: #CFD8DC;
+  border-bottom: 1px solid #455a64;
+  color: #cfd8dc;
   font-size: 20px;
   padding: 16px 24px;
   cursor: pointer;
 }
 
-#sidebar .nav a:hover{
+#sidebar .nav a:hover {
   background: none;
-  color: #ECEFF1;
+  color: #eceff1;
 }
 
-#sidebar .nav a i{
+#sidebar .nav a i {
   margin-right: 16px;
 }
 
-.container-fluid{
-    padding-left: 0;
-    padding-right: 0;
+.container-fluid {
+  padding-left: 0;
+  padding-right: 0;
 }
 
-
-.nav li{
+.nav li {
   position: relative;
   display: block;
   text-align: center;
   padding: 10px;
 }
 
-.nav:first-child li{
+.nav:first-child li {
   margin-top: 30px;
 }
