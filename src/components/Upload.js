@@ -111,9 +111,10 @@ class Upload extends React.Component {
         file_name: this.state.selectedFileName,
         private_key: code
       })
-    }).then(res => {
+    }).then(async (res) => {
       if (res.status !== 200) {
-        throw Error("Private key is incorrect or something")
+        var error = await res.json()
+        throw Error(error.message)
       }
       return res.blob()
     }).then(blob => {
@@ -123,7 +124,7 @@ class Upload extends React.Component {
     }
     )
       .catch(err => {
-        this.setState({ error: e.response.data.message, loadingState: false })
+        this.setState({ error: err.message, loadingState: false })
         this.disappearMsg()
       })
   }
@@ -263,12 +264,12 @@ class Upload extends React.Component {
                   document.getElementById('modal-container').classList.add('six')
                   document.getElementById('modal-container').classList.remove('out')
                 }}>
-                  <i className="zmdi zmdi-link"></i> New File
+                  <i class="fas fa-file-alt"></i> New File
         </a>
               </li>
               <li>
                 <a onClick={this.logout}>
-                  <i className="zmdi zmdi-comment-more"></i> Logout
+                  <i class="fas fa-sign-out-alt"></i> Logout
         </a>
               </li>
             </ul>
