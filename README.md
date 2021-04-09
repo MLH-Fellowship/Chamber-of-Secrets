@@ -1,3 +1,5 @@
+<img src="https://github.com/MLH-Fellowship/ChamberOfSecrets-Backend/blob/main/documentation/static/img/ChamberOfSecrets.png" width="150px" height="150px">
+
 # Chamber Of Secrets
 ---
 
@@ -28,7 +30,7 @@ Documentation: Docusaurus
 ## Development Setup
 ---
 
-Here is a [link](https://github.com/MLH-Fellowship/ChamberOfSecrets-Backend) to backend repository. \
+Here is a [link](https://github.com/MLH-Fellowship/ChamberOfSecrets-Backend) to backend repository \
 Kindly refer to our [documentation website](https://chamber-of-secrets.netlify.app) for the setup instructions.
 
 ## Try It Yourself
@@ -40,6 +42,4 @@ Try out the application [here](https://mlh-chamber-of-secrets.herokuapp.com)
 ---
 
 The project planning and management was done using Notion. Here is a [link](https://www.notion.so/Sprint-2-Chamber-of-Secrets-98150436b29945bb9764a2a5c98b652a) to our notion page.
-
-
 
