@@ -171,12 +171,12 @@ class AuthForm extends React.Component {
           <div id="slider">
             <div id="login-text">
               <h1>Chamber of Secrets</h1>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+              <p>Built on the principles of Ethical Data, Chamber of Secrets is a redifined Digital Locker system straight out of the magical Hrry Potter universe created J.K. Rowling. Inspired by the One-Who-Must-Not-Be-Named, Lord Voldermort himself, we ensure that your data is accessible to you, and only you.</p>
             </div>
 
             <div id="sign-up-text">
               <h1>Chamber of Secrets</h1>
-              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+              <p>Built on the principles of Ethical Data, Chamber of Secrets is a redifined Digital Locker system straight out of the magical Hrry Potter universe created J.K. Rowling. Inspired by the One-Who-Must-Not-Be-Named, Lord Voldermort himself, we ensure that your data is accessible to you, and only you.</p>
             </div>
           </div>
         </section>
