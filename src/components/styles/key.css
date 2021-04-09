@@ -1,0 +1,76 @@
+@import url("https://fonts.googleapis.com/css2?family=Amaranth&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans&display=swap");
+
+.key-parent {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    min-height: 100vh;
+    background-image: url(../../assets/key.png);
+    background-size: cover;
+    background-color: white;
+    text-align: center;
+}
+
+.input-group i {
+    color: #fff;
+}
+
+.key-heading {
+    text-align: center;
+    color: white;
+    text-shadow: 2px 2px rgb(7, 7, 7);
+    font-size: 60px;
+    font-family: "Amaranth", sans-serif;
+}
+
+.subheading {
+    color: #fff;
+    font-weight: bold;
+    text-shadow: 2px 2px rgb(7, 7, 7);
+    font-size: 30px;
+    font-family: "Open Sans", sans-serif;
+}
+
+.private-key-parent {
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.input-group {
+    display: flex;
+}
+
+.input-group-addon {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
+    padding: 20px;
+    background-color: transparent;
+    border: none;
+}
+
+.private-key-parent button {
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    outline: none;
+    color: rgb(0, 0, 0);
+    border: none;
+    margin-top: 5px;
+    background: linear-gradient(to bottom right, #6a7e7e, #4d7494);
+    box-shadow: 0 3px 15px 5px rgba(black, 0.2);
+    cursor: pointer;
+    font-family: "Quattrocento Sans";
+    transition: 75ms ease;
+    width: 350px;
+}
+
+.private-key-parent button:hover {
+    background: rgb(0, 0, 0);
+    transform: scale(0.95);
+    color: white;
+}

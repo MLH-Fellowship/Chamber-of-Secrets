@@ -1,0 +1,164 @@
+/** CORE STYLES **/
+*,
+*:before,
+*:after {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+html {
+    font-size: 62.5%;
+    font-family: "Consolas", monospace;
+}
+
+#desktop {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("../../assets/hogwarts2.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    cursor: default;
+    overflow: hidden;
+    height: 100vh;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/** UTILITY CLASSES **/
+.hidden {
+    display: none;
+}
+
+/** COMPONENTS STYLES **/
+.icon {
+    display: inline-block;
+    vertical-align: top;
+    width: 75px;
+    height: auto;
+    font-size: 1.2rem;
+    text-align: center;
+    line-height: 1;
+    white-space: pre-wrap;
+    word-break: break-word;
+    color: #222222;
+    background: none;
+    border-radius: 3px;
+    margin: 5px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.icon:before {
+    content: "";
+    display: block;
+    width: 80%;
+    padding: 40% 0;
+    margin: 0 auto 5px auto;
+    background: center center no-repeat;
+    background-size: cover;
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+.icon.list {
+    display: block;
+    width: 100%;
+    text-align: left;
+    margin: 1px 0;
+    border-radius: 0;
+    padding: 4px 10px 2px 30px;
+    position: relative;
+}
+
+.icon.list:nth-of-type(2n) {
+    background-color: #eeeeee;
+}
+
+.icon.list:before {
+    position: absolute;
+    top: 2px;
+    left: 10px;
+    width: 14px;
+    height: 14px;
+    padding: 0;
+    background-image: url("http://cdn.arnellebalane.com/images/virtual-filesystem/folder.png");
+    opacity: 0.5;
+}
+
+.icon.highlighted {
+    color: #ffffff !important;
+    background-color: rgba(119, 170, 219, 1) !important;
+}
+
+.icon.contextmenu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: white;
+    padding: 10px;
+    margin: 0;
+    display: none;
+    border: 1px solid black;
+    border-radius: 3px;
+    font-family: sans-serif;
+    transition: all 0.3s;
+}
+
+.icon.textedit:before {
+    background-image: url("http://cdn.arnellebalane.com/images/virtual-filesystem/textedit.png");
+}
+
+.icon.pdf:before {
+    background-image: url("../../assets/pdf_icon.png");
+}
+
+.icon.csv:before {
+    background-image: url("../../assets/csv_icon.png");
+}
+
+.icon.docx:before {
+    background-image: url("../../assets/docx_icon.png");
+}
+
+.icon.ppt:before {
+    background-image: url("../../assets/ppt_icon.png");
+}
+
+.icon.img:before {
+    background-image: url("../../assets/img_icon.png");
+}
+
+.icon.xlsx:before {
+    background-image: url("../../assets/xlsx_icon.png");
+}
+
+.icon.vid:before {
+    background-image: url("../../assets/vid_icon.png");
+}
+
+.icon.mus:before {
+    background-image: url("../../assets/mus_icon.png");
+}
+
+.icon textarea {
+    display: block;
+    width: 100%;
+    height: 12px;
+    font: normal 1.2rem/1 "Consolas", monospace;
+    text-align: center;
+    border: none;
+    border-radius: 2px;
+    padding: none;
+    resize: none;
+    outline: none;
+}
