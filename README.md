@@ -33,6 +33,8 @@ Documentation: Docusaurus
 Here is a [link](https://github.com/MLH-Fellowship/ChamberOfSecrets-Backend) to backend repository \
 Kindly refer to our [documentation website](https://chamber-of-secrets.netlify.app) for the setup instructions.
 
+In case of any queries reach out to us on [Discord](https://discord.gg/JyfcsMaG)
+
 ## Try It Yourself
 ---
 
