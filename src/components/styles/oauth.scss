@@ -125,9 +125,10 @@ $gray: #b5b5b5;
 
 @media only screen and (max-width: 600px) {
     .heading {
+        font-size: 36px;
         margin-bottom: 1rem;
     }
-    
+
     .auth-div-parent {
         flex-wrap: wrap;
       }
