@@ -136,7 +136,7 @@ class AuthForm extends React.Component {
             }
             <div className="toggle">
               Already have an account?
-      <span onClick={() => { this.setState({ current: false }) }}>Log in</span>
+              <span onClick={() => { this.setState({ current: false }) }}> Log in</span>
             </div>
           </form>
 
@@ -164,7 +164,7 @@ class AuthForm extends React.Component {
             }
             <div className="toggle">
               Don't have an account?
-      <span onClick={() => { this.setState({ current: true }) }}>Sign up</span>
+              <span onClick={() => { this.setState({ current: true }) }}> Sign up</span>
             </div>
           </form>
 
