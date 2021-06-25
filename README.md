@@ -38,7 +38,7 @@ In case of any queries reach out to us on [Discord](https://discord.gg/JyfcsMaG)
 ## Try It Yourself
 ---
 
-Try out the application [here](https://mlh-chamber-of-secrets.herokuapp.com)
+Try out the application [here](https://mlh-chamber-of-secrets.herokuapp.com) \
 Take a look at our project on [Devpost](https://devpost.com/software/chamber-of-secrets)
 
 ## Project Planning
