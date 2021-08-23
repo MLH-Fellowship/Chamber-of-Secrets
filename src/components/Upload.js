@@ -5,9 +5,16 @@ import './styles/upload.css'
 import './styles/sidebar.css'
 import Modal from './Modal'
 import jwtDecode from 'jwt-decode';
-import Profile from '../assets/profile.jpg'
+import Profile1 from '../assets/profile/profile1.jpg';
+import Profile2 from '../assets/profile/profile2.jpg'
+import Profile3 from '../assets/profile/profile3.jpg'
+import Profile4 from '../assets/profile/profile4.jpg'
+import Profile5 from '../assets/profile/profile5.jpg'
+import Profile6 from '../assets/profile/profile6.png'
 import { setTokenHeader } from '../services/api';
 import { serverUrl } from '../services/config'
+
+const Profile = [Profile1, Profile2, Profile3, Profile4, Profile5, Profile6];
 
 class Upload extends React.Component {
   state = {
@@ -254,7 +261,7 @@ class Upload extends React.Component {
           <div id="sidebar">
             <ul className="nav">
               <li>
-                <img alt="Voldermort" src={Profile} height="80px" width="80px" style={{ borderRadius: "50%" }} />
+                <img alt="Voldemort" src={Profile[parseInt(Math.random()*6)]} height="80px" width="80px" style={{ borderRadius: "50%" }} />
                 <br /><br />
                 <h4 style={{ color: "white" }}>Hi <br />{this.getUsername()}</h4>
               </li>
