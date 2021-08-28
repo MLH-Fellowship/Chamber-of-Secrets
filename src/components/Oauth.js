@@ -106,9 +106,10 @@ class GoogleAuthScreen extends React.Component {
                     <form onSubmit={this.submitGoogleCode}>
                       <div className="code-container">
                         <input onChange={this.handleChange} name="googleCode" value={this.state.googleCode} type="text" placeholder="Auth Code" className="textbox code-textbox" />
+                        <input type="submit" value="Submit"/>
                       </div>
                       <div>
-                        <input type="submit" />
+                        
                         <br />
                         <br />
                         {this.state.googleError ?
@@ -135,9 +136,10 @@ class GoogleAuthScreen extends React.Component {
                     <form onSubmit={this.submitDropboxCode}>
                       <div className="code-container">
                         <input onChange={this.handleChange} name="dropboxCode" value={this.state.dropboxCode} type="text" placeholder="Auth Code" className="textbox code-textbox" />
+                        <input type="submit" value="Submit"/>
                       </div>
                       <div>
-                        <input type="submit" />
+                        
                         <br />
                         <br />
                         {this.state.dropboxError ?
